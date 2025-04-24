@@ -1,7 +1,11 @@
 // utils/authMiddleware.js
 import jwt from "jsonwebtoken";
 
-export const createToken = (user, secretKey, expiry) => {
+export const createToken = (
+  user,
+  secretKey,
+  expiry = "24h"
+) => {
   const token = jwt.sign(
     {
       userId: user._id,

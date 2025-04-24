@@ -1,4 +1,9 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import AuthLayout from "./components/auth/Layout";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
@@ -17,6 +22,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
+import ProductPage from "./pages/shopping/Product";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,7 +37,7 @@ function App() {
         {/* auth routes  */}
 
         <Route
-          path="auth"
+          path="/auth"
           element={
             <ProtectedRoutes>
               <AuthLayout />
@@ -93,17 +99,14 @@ function App() {
             path="listings"
             element={<ListingPage />}
           />
+          <Route
+            path="products"
+            element={<ProductPage />}
+          />
           <Route path="home" element={<HomePage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <button
-        onClick={() => {
-          dispatch(checkAuth());
-        }}
-      >
-        check auth
-      </button>
     </div>
   );
 }

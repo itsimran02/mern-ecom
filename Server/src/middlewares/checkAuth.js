@@ -6,7 +6,7 @@ export const checkAuthMiddleware = async (
   next
 ) => {
   const token = req.cookies.token;
-  console.log(req);
+
   if (!token) {
     return res.status(401).json({
       success: false,
@@ -15,7 +15,11 @@ export const checkAuthMiddleware = async (
   }
 
   try {
-    const decoded = jwt.verify(token, "SECRET_KEY");
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET_KEY
+    );
+
     req.user = decoded;
     next();
   } catch (error) {

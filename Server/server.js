@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import connectDB from "./src/config/db.js";
 import authRoutes from "./src/routes/authRoutes.js";
+import productRoutes from "./src/routes/ProductRoutes.js";
+import errorHandler from "./src/middlewares/errorHandlerMiddleware.js";
+
 dotenv.config();
 
 const app = express();
@@ -19,6 +22,7 @@ app.use(
     origin:
       process.env.FRONTEND_URL || "http://localhost:5173",
     methods: ["GET", "PUT", "POST", "DELETE"],
+    credentials: true,
     allowedHeaders: [
       "Content-Type",
       "Authorization",
@@ -26,7 +30,6 @@ app.use(
       "Expires",
       "Pragma",
     ],
-    credentials: true,
   })
 );
 
@@ -36,7 +39,13 @@ connectDB();
 
 // routes
 app.use("/api/auth", authRoutes);
+
+app.use("/api/products", productRoutes);
 // start app server
+
+// all route error midd
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`server is running at port ${PORT}`);

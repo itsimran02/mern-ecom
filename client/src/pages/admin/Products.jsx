@@ -1,5 +1,5 @@
 const AdminProducts = () => {
-  return <div>Dashboard</div>;
+  return <div>products</div>;
 };
 
 export default AdminProducts;

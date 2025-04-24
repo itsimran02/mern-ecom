@@ -1,15 +1,16 @@
 import { Link, Outlet } from "react-router-dom";
-import { Header } from "../ui/Header";
+import Header from "../ui/Header";
+import Footer from "../ui/Footer";
 
 const ShoppingLayout = () => {
   return (
-    <div className="flex flex-col overflow-hidden bg-white ">
+    <div className="flex flex-col overflow-hidden ">
       <Header />
 
-      <Link to="/admin/dashboard">click</Link>
       <main className="flex flex-col w-full">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 };

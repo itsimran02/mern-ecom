@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import createToken from "../utils/createToken.js";
 
 export const registerUser = async (req, res) => {
@@ -27,30 +26,25 @@ export const registerUser = async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign(
-      {
-        _id: user._id,
-        userName: user.userName,
-        email: user.email,
-        role: user.role,
-      },
-      "SECRET_KEY",
-      {
-        expiresIn: "15m",
-      }
+    const token = createToken(
+      user,
+      process.env.JWT_SECRET_KEY
     );
 
     return res
       .cookie("token", token, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 24 * 60 * 60 * 1000,
+        path: "/",
       })
       .status(201)
       .json({
         success: true,
         message: "user created successfuly",
         user: {
-          _id: user._id,
+          id: user._id,
           userName: user.userName,
           email: user.email,
           role: user.role,
@@ -99,15 +93,18 @@ export const loginUser = async (req, res) => {
     //   }
     // );
 
-    const token = createToken(user, "SECRET_KEY", "15min");
+    const token = createToken(
+      user,
+      process.env.JWT_SECRET_KEY
+    );
     // console.log(token);
     return res
       .cookie("token", token, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        // path: "/",
-        maxAge: 15 * 60 * 1000,
+        maxAge: 24 * 60 * 60 * 1000,
+        path: "/",
       })
       .status(200)
       .json({
@@ -130,6 +127,7 @@ export const loginUser = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
   const { user } = req;
+  console.log(user);
   if (!user) {
     return res.status(401).json({
       success: false,

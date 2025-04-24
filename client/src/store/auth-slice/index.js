@@ -16,9 +16,11 @@ const registerUser = createAsyncThunk(
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/register",
-        userData
+        userData,
+        {
+          withCredentials: true,
+        }
       );
-      console.log(res);
       return res;
     } catch (error) {
       return rejectWithValue(
@@ -34,7 +36,10 @@ const loginUser = createAsyncThunk(
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/login",
-        userData
+        userData,
+        {
+          withCredentials: true,
+        }
       );
 
       if (!res?.data?.success) {

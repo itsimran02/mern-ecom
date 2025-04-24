@@ -1,7 +1,61 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
-
 @import "tailwindcss";
 
 @theme {
-  --font-main: "Raleway", serif;
+  --font-main: "Integral CF", serif;
+  --font-secondary: "Satoshi", serif;
+}
+
+@layer base {
+  @font-face {
+    font-family: "Integral";
+    src: url("./assets//fonts/integral/Fontspring-DEMO-integralcf-regular.otf")
+      format("opentype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/src/assets/fonts/satoshi/Satoshi-Regular.woff")
+      format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+:root {
+  --font-main: "Integral", sans-serif;
+  --font-secondary: "Satoshi", sans-serif;
+}
+
+.heading-secondary {
+  color: #000;
+  text-align: center;
+
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+@media (width >= 48rem) {
+  .heading-secondary {
+    color: #000;
+    text-align: center;
+
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
