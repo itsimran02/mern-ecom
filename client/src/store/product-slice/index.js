@@ -52,7 +52,7 @@ const getProducts = createAsyncThunk(
       });
 
       const res = await axios.get(
-        `http://localhost:5000/api/products?${params}`
+        `https://5000-itsimran02-mernecom-dgaz9no1p78.ws-us118.gitpod.io/api/products?${params}`
       );
 
       return {
