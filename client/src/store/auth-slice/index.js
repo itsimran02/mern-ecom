@@ -15,7 +15,7 @@ const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://5000-itsimran02-mernecom-dgaz9no1p78.ws-us118.gitpod.io/api/auth/register",
         userData,
         {
           withCredentials: true,
@@ -35,7 +35,7 @@ const loginUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://5000-itsimran02-mernecom-dgaz9no1p78.ws-us118.gitpod.io/api/auth/login",
         userData,
         {
           withCredentials: true,
@@ -61,7 +61,7 @@ const checkAuth = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/auth/check-auth",
+        "https://5000-itsimran02-mernecom-dgaz9no1p78.ws-us118.gitpod.io/api/auth/check-auth",
         {
           withCredentials: true,
           headers: {

@@ -37,7 +37,7 @@ const Header = () => {
         <div className="hidden lg:block">
           <ul className="flex space-x-8">
             <Link
-              to="/shop/products"
+              to="/shop/products?page=1"
               className="text-gray-800 hover:text-black font-medium cursor-pointer"
             >
               Shop
