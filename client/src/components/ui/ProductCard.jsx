@@ -1,6 +1,4 @@
-import React from "react";
-import { Star, StarHalf } from "lucide-react";
-import { renderStars } from "./renderStars";
+import renderStars from "../../utils/renderStars";
 
 // Product Card Component
 const ProductCard = ({

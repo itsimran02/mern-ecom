@@ -11,7 +11,6 @@ const formState = {
   email: "",
   password: "",
 };
-console.log(formState);
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -22,7 +21,6 @@ const LoginPage = () => {
       return toast.error("Please fill all fields");
     }
     dispatch(loginUser(formData)).then((data) => {
-      console.log(data);
       if (data?.payload?.success) {
         toast.success(data?.payload.message);
       } else {

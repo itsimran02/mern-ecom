@@ -14,7 +14,7 @@ import casualImg from "./images/casual.png";
 import formerImg from "./images/former.png";
 import gymImg from "./images/gym.png";
 import partyimg from "./images/party.png";
-
+import noImage from "./images/no-image.jpg";
 export {
   cartIcon,
   userIcon,
@@ -32,4 +32,5 @@ export {
   gymImg,
   casualImg,
   formerImg,
+  noImage,
 };

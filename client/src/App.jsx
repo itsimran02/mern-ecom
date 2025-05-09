@@ -1,9 +1,4 @@
-import {
-  Link,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AuthLayout from "./components/auth/Layout";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
@@ -23,6 +18,8 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import ProductPage from "./pages/shopping/Product";
+import ProductDescription from "./pages/shopping/ProductDescription";
+import SearchProducts from "./pages/shopping/searchProducts";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +32,14 @@ function App() {
     <div className="flex flex-col bg-white overflow-hidden">
       <Routes>
         {/* auth routes  */}
-
+        <Route
+          path="/"
+          element={
+            <ProtectedRoutes>
+              <h1>home</h1>
+            </ProtectedRoutes>
+          }
+        />
         <Route
           path="/auth"
           element={
@@ -89,8 +93,13 @@ function App() {
               <ShoppingLayout />
             </ProtectedRoutes>
           }
+          replace
         >
-          <Route path="account" element={<AccountPage />} />
+          <Route
+            path="account"
+            element={<AccountPage />}
+            replace
+          />
           <Route
             path="checkout"
             element={<CheckoutPage />}
@@ -103,9 +112,27 @@ function App() {
             path="products"
             element={<ProductPage />}
           />
-          <Route path="home" element={<HomePage />} />
+
+          <Route
+            path="products/:id"
+            element={<ProductDescription />}
+          />
+          <Route
+            path="products/search"
+            element={<SearchProducts />}
+          />
+
+          <Route
+            path="home"
+            element={<HomePage />}
+            replace
+          />
         </Route>
-        <Route path="*" element={<NotFoundPage />} />
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+          replace
+        />
       </Routes>
     </div>
   );

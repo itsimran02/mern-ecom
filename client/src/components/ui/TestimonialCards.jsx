@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
-import { renderStars } from "./renderStars";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, FreeMode } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import renderStars from "../../utils/renderStars";
 
 const testimonialData = [
   {

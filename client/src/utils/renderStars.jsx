@@ -1,6 +1,6 @@
 import { Star, StarHalf } from "lucide-react";
 
-export const renderStars = (rating, id) => {
+const renderStars = (rating, id) => {
   const stars = [];
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 !== 0;
@@ -41,3 +41,5 @@ export const renderStars = (rating, id) => {
 
   return stars;
 };
+
+export default renderStars;

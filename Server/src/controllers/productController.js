@@ -118,4 +118,124 @@ const addProduct = async (req, res, next) => {
   }
 };
 
-export { getProducts, addProduct };
+const getProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return next(
+        new AppError("Product ID is required", 400)
+      );
+    }
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return next(new AppError("Product not found", 404));
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    return next(
+      new AppError(
+        error.message || "Something went wrong",
+        500
+      )
+    );
+  }
+};
+
+const searchProducts = async (req, res, next) => {
+  try {
+    const {
+      keyword,
+      category,
+      brand,
+      minPrice,
+      maxPrice,
+      page = 1,
+      limit = 12,
+    } = req.query;
+
+    if (!keyword) {
+      return next(
+        new AppError("Search keyword is required", 400)
+      );
+    }
+
+    const filters = {};
+    if (category) filters.category = category;
+    if (brand) filters.brand = brand;
+
+    if (minPrice || maxPrice) {
+      filters.price = {}; // ✅ initialize this object first
+
+      if (minPrice) filters.price.$gte = Number(minPrice);
+      if (maxPrice) filters.price.$lte = Number(maxPrice);
+    }
+
+    const regx = new RegExp(keyword, "i");
+
+    const query = {
+      $and: [
+        {
+          $or: [
+            { name: regx },
+            { category: regx },
+            { subCategory: regx },
+          ],
+        },
+
+        ...(Object.keys(filters).length > 0
+          ? [filters]
+          : []),
+      ],
+    };
+
+    const [products, total] = await Promise.all([
+      Product.find(query)
+        .limit(Number(limit))
+        .skip((Number(page) - 1) * Number(limit))
+        .exec(),
+      Product.countDocuments(query),
+    ]);
+
+    if (total === 0) {
+      return next(new AppError("No products found", 404));
+    }
+
+    const totalPages = Math.ceil(total / limit);
+    const hasNext = page < totalPages;
+    const hasPrev = page > 1;
+
+    return res.status(200).json({
+      success: true,
+      data: products,
+      pagination: {
+        total,
+        totalPages,
+        limit: Number(limit),
+        page: Number(page),
+        hasNext,
+        hasPrev,
+      },
+    });
+  } catch (error) {
+    return next(
+      new AppError(
+        error.message || "something went wrong",
+        500
+      )
+    );
+  }
+};
+
+export {
+  getProducts,
+  addProduct,
+  getProduct,
+  searchProducts,
+};

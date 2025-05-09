@@ -2,10 +2,11 @@ import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoutes = ({ children }) => {
-  const { isAuthenticated, user } = useSelector(
-    (state) => state.auth
-  );
+  const { isAuthenticated, user, isLoading, authStatus } =
+    useSelector((state) => state.auth);
   const location = useLocation();
+
+  if (isLoading || !authStatus) return <p>loading...</p>;
 
   if (location.pathname === "/") {
     if (!isAuthenticated) {
@@ -44,7 +45,7 @@ const ProtectedRoutes = ({ children }) => {
   if (
     isAuthenticated &&
     user?.role !== "admin" &&
-    location.pathname.includes("/admin")
+    location.pathname.startsWith("/admin")
   ) {
     return <Navigate to="/unauth-page" replace />;
   }

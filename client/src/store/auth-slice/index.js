@@ -8,6 +8,7 @@ const initialState = {
   isAuthenticated: false,
   isLoading: false,
   user: null,
+  authStatus: false,
 };
 
 const registerUser = createAsyncThunk(
@@ -71,7 +72,6 @@ const checkAuth = createAsyncThunk(
         }
       );
 
-      console.log(res);
       return res.data;
     } catch (error) {
       return rejectWithValue(
@@ -123,7 +123,7 @@ const authSlice = createSlice({
           : false;
       }
     );
-    builder.addCase(loginUser.rejected, (state, action) => {
+    builder.addCase(loginUser.rejected, (state) => {
       state.isLoading = false;
 
       state.isAuthenticated = false;
@@ -135,7 +135,7 @@ const authSlice = createSlice({
       checkAuth.fulfilled,
       (state, action) => {
         state.isLoading = false;
-
+        state.authStatus = true;
         state.user = action.payload.user;
         state.isAuthenticated = action.payload?.success
           ? true
@@ -144,6 +144,7 @@ const authSlice = createSlice({
     );
     builder.addCase(checkAuth.rejected, (state) => {
       state.isLoading = false;
+      state.authStatus = true;
 
       state.isAuthenticated = false;
     });

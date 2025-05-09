@@ -4,25 +4,29 @@ import {
 } from "@reduxjs/toolkit";
 
 import axios from "axios";
+import getFiltersFromUrl from "../../utils/getFiltersFromUrl";
 
 const initialState = {
   data: [],
   pagination: {
     total: 0,
-    page: 1,
+    page:
+      new URLSearchParams(window.location.search).get(
+        "page"
+      ) || 1,
     limit: 12,
     totalPages: 1,
     hasNext: false,
     hasPrev: false,
   },
-  filters: {
-    category: "",
-    brand: "",
-    minPrice: null,
-    maxPrice: null,
-    colors: [],
-    sort: "createdAt_desc",
-  },
+  // filters: {
+  //   category: "",
+  //   brand: "",
+  //   minPrice: null,
+  //   maxPrice: null,
+  // },
+
+  filters: getFiltersFromUrl(),
   error: null,
   status: "idle",
 };
@@ -67,24 +71,29 @@ const getProducts = createAsyncThunk(
   }
 );
 
-const productSlice = createSlice({
-  name: "product",
+const productsSlice = createSlice({
+  name: "products",
   initialState,
   reducers: {
     setCategory: (state, action) => {
       state.filters.category = action.payload;
+      state.pagination.page = 1;
     },
     setColors: (state, action) => {
       state.filters.colors = action.payload;
+      state.pagination.page = 1;
     },
     setBrand: (state, action) => {
-      state.filters.brand = action.payload.split(",");
+      state.filters.brand = action.payload;
+      state.pagination.page = 1;
     },
     setMinPrice: (state, action) => {
       state.filters.minPrice = action.payload;
+      state.pagination.page = 1;
     },
     setMaxPrice: (state, action) => {
       state.filters.maxPrice = action.payload;
+      state.pagination.page = 1;
     },
     setPage: (state, action) => {
       state.pagination.page += action.payload;
@@ -111,12 +120,12 @@ const productSlice = createSlice({
 export { getProducts };
 
 export const {
-  getCategory,
-  minPrice,
-  maxPrice,
-  colors,
-  brand,
+  setCategory,
+  setMinPrice,
+  setMaxPrice,
+  setColors,
+  setBrand,
   setPage,
-} = productSlice.actions;
+} = productsSlice.actions;
 
-export default productSlice.reducer;
+export default productsSlice.reducer;
