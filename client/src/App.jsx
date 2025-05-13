@@ -19,7 +19,7 @@ import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import ProductPage from "./pages/shopping/Product";
 import ProductDescription from "./pages/shopping/ProductDescription";
-import SearchProducts from "./pages/shopping/searchProducts";
+import SearchProducts from "./pages/shopping/ProductsSearch";
 
 function App() {
   const dispatch = useDispatch();

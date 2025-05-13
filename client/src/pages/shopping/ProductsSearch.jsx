@@ -184,7 +184,7 @@ const SearchProducts = () => {
           {/* Search keyword display */}
           {searchKeyword && (
             <p className="mb-4">
-              Search results for: "{searchKeyword}"
+              Search results for: searchKeyword
             </p>
           )}
 

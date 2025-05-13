@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin:
-      process.env.FRONTEND_URL || "http://localhost:5173",
+      process.env.FRONTEND_URL || "http://localhost:3000",
     methods: ["GET", "PUT", "POST", "DELETE"],
     credentials: true,
     allowedHeaders: [
@@ -38,9 +38,11 @@ app.use(
 connectDB();
 
 // routes
+
 app.use("/api/auth", authRoutes);
 
 app.use("/api/products", productRoutes);
+
 // start app server
 
 // all route error midd
