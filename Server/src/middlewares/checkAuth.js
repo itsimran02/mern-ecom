@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
+import AppError from "../utils/appError.js";
 
 export const checkAuthMiddleware = async (
   req,
@@ -8,10 +10,7 @@ export const checkAuthMiddleware = async (
   const token = req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "unauthorised user",
-    });
+    next(new AppError("please login again", 401));
   }
 
   try {
@@ -20,12 +19,25 @@ export const checkAuthMiddleware = async (
       process.env.JWT_SECRET_KEY
     );
 
-    req.user = decoded;
-    next();
+    const findUser = await User.findById(decoded.userId);
+    if (!findUser)
+      return next(new AppError("no user found") || 404);
+    const { _id, userName, email, role, cartItems } =
+      findUser;
+    req.user = {
+      _id,
+      userName,
+      email,
+      role,
+      cartItems,
+    };
+    return next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: error.message || "something went wrong",
-    });
+    return next(
+      new AppError(
+        error.message || "soemthing went wrong",
+        500
+      )
+    );
   }
 };

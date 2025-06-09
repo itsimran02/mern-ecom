@@ -1,4 +1,5 @@
 import Product from "../models/Product.js";
+import User from "../models/User.js";
 import AppError from "../utils/appError.js";
 import productSchemaValidator from "../validators/productValidator.js";
 
@@ -129,7 +130,6 @@ const getProduct = async (req, res, next) => {
     }
 
     const product = await Product.findById(id);
-
     if (!product) {
       return next(new AppError("Product not found", 404));
     }
@@ -233,9 +233,134 @@ const searchProducts = async (req, res, next) => {
   }
 };
 
+const addToCartProduct = async (req, res, next) => {
+  try {
+    const { productId, userId } = req.body;
+
+    const findProductById = await Product.findById(
+      productId
+    );
+    if (!findProductById) {
+      return next(
+        new AppError(
+          "Can't add this product to the cart",
+          400
+        )
+      );
+    }
+
+    const findUser = await User.findById(userId);
+    if (!findUser) {
+      return next(new AppError("User not found", 404));
+    }
+
+    if (!findUser.cartItems.includes(productId)) {
+      findUser.cartItems.push(productId);
+      await findUser.save();
+    } else {
+      return next(
+        new AppError("Product is already in your cart", 400)
+      );
+    }
+
+    const updatedCart = await Product.find({
+      _id: { $in: findUser.cartItems },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Product added to the cart",
+      updatedCart: updatedCart || [],
+    });
+  } catch (error) {
+    next(
+      new AppError(
+        error.message || "Something went wrong",
+        500
+      )
+    );
+  }
+};
+
+const getAllCartItems = async (req, res, next) => {
+  try {
+    const { cartItems } = req.body;
+    if (!Array.isArray(cartItems) || cartItems.length === 0)
+      return next(new AppError("cart is empty", 401));
+    const getItems = await Product.find({
+      _id: {
+        $in: cartItems,
+      },
+    });
+    if (!getItems)
+      return next(
+        new AppError("something went wrong", 404)
+      );
+
+    return res.status(200).json({
+      success: true,
+      cartItems: getItems,
+    });
+  } catch (error) {
+    next(
+      new AppError(
+        error.message || "something went wrong",
+        500
+      )
+    );
+  }
+};
+const deleteCartItem = async (req, res, next) => {
+  try {
+    const { productId, userId } = req.body;
+    console.log(productId);
+    if (
+      !productId ||
+      typeof productId !== "string" ||
+      !userId ||
+      typeof userId !== "string"
+    ) {
+      return next(
+        new AppError("Invalid product ID or user ID", 400)
+      );
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $pull: { cartItems: productId } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return next(new AppError("User not found", 404));
+    }
+
+    const updatedCart = await Product.find({
+      _id: { $in: updatedUser.cartItems },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Product removed from cart successfully",
+      updatedCart,
+    });
+  } catch (error) {
+    next(
+      new AppError(
+        error.message ||
+          "Failed to remove product from cart",
+        500
+      )
+    );
+  }
+};
+
 export {
   getProducts,
   addProduct,
   getProduct,
   searchProducts,
+  addToCartProduct,
+  getAllCartItems,
+  deleteCartItem,
 };

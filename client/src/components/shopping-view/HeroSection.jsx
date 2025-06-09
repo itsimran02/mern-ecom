@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { heroImage } from "../../assets/asset";
 
 const HeroSection = () => {
@@ -15,9 +16,12 @@ const HeroSection = () => {
               bring out your individuality and cater to your
               sense of style.
             </p>
-            <button className="px-[52px] py-4 bg-black text-white rounded-full hover:bg-gray-800 transition-colors">
+            <Link
+              to={"/shop/products"}
+              className="px-[52px] py-4 bg-black text-white rounded-full hover:bg-gray-800 transition-colors cursor-pointer"
+            >
               Shop Now
-            </button>
+            </Link>
 
             <div className="flex gap-[32px] md:flex-row flex-wrap justify-center sm:justify-start w-full">
               <div className="flex flex-col">

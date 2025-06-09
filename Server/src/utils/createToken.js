@@ -1,4 +1,3 @@
-// utils/authMiddleware.js
 import jwt from "jsonwebtoken";
 
 export const createToken = (

@@ -48,6 +48,7 @@ export const registerUser = async (req, res) => {
           userName: user.userName,
           email: user.email,
           role: user.role,
+          cartItems: user.cartItems || [],
         },
       });
   } catch (error) {
@@ -82,22 +83,11 @@ export const loginUser = async (req, res) => {
         .json({ message: "Invalid credentials" });
     }
 
-    // const token = jwt.sign(
-    //   {
-    //     userId: user._id,
-    //     role: user.role,
-    //   },
-    //   "SECRET_KEY",
-    //   {
-    //     expiresIn: "15m",
-    //   }
-    // );
-
     const token = createToken(
       user,
       process.env.JWT_SECRET_KEY
     );
-    // console.log(token);
+
     return res
       .cookie("token", token, {
         httpOnly: true,
@@ -115,6 +105,7 @@ export const loginUser = async (req, res) => {
           userName: user.userName,
           email: user.email,
           role: user.role,
+          cartItems: user.cartItems,
         },
       });
   } catch (error) {
@@ -127,7 +118,6 @@ export const loginUser = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
   const { user } = req;
-  console.log(user);
   if (!user) {
     return res.status(401).json({
       success: false,

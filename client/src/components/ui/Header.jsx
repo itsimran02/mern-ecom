@@ -268,11 +268,12 @@ const Header = () => {
           >
             <Search size={22} />
           </button>
-
-          <ShoppingCart
-            className="text-gray-700 cursor-pointer"
-            size={22}
-          />
+          <Link to="cart">
+            <ShoppingCart
+              className="text-gray-700 cursor-pointer"
+              size={22}
+            />
+          </Link>
           <User
             className="text-gray-700 cursor-pointer"
             size={22}

@@ -64,14 +64,6 @@ const ProductCard = ({
         />
 
         {/* Quick actions overlay */}
-        <div className="absolute inset-0 bg-black/60 bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button
-            onClick={onAddToCart}
-            className="bg-black cursor-pointer active:scale-95 transition-all ease-in text-white text-sm py-2 px-4 rounded-full hover:bg-gray-800 "
-          >
-            Add to Cart
-          </button>
-        </div>
 
         {/* Discount tag if available */}
         {discountPrice && (

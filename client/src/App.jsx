@@ -20,6 +20,9 @@ import { checkAuth } from "./store/auth-slice";
 import ProductPage from "./pages/shopping/Product";
 import ProductDescription from "./pages/shopping/ProductDescription";
 import SearchProducts from "./pages/shopping/ProductsSearch";
+import ShopingCart from "./pages/shopping/ShopingCart";
+import CancelPage from "./pages/payment/Cancel";
+import SuccessfullPage from "./pages/payment/Successfull";
 
 function App() {
   const dispatch = useDispatch();
@@ -95,6 +98,15 @@ function App() {
           }
           replace
         >
+          <Route
+            path="payment-failed"
+            element={<CancelPage />}
+          />
+          <Route
+            path="payment-successfull"
+            element={<SuccessfullPage />}
+          />
+          <Route path="cart" element={<ShopingCart />} />
           <Route
             path="account"
             element={<AccountPage />}

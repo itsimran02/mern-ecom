@@ -5,18 +5,36 @@ import { getProduct } from "../../store/product-slice/getProduct";
 import toast, { Toaster } from "react-hot-toast";
 import renderStars from "../../utils/renderStars";
 
+import {
+  addToCart,
+  resetAddToCart,
+} from "../../store/product-slice/addToCart.js";
+
 const ProductDescription = () => {
   const [selectedImage, setSelectedImage] = useState("");
+
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { data, isLoading, isError } = useSelector(
+  const {
+    message: cartMessage,
+    isError: cartError,
+    status,
+  } = useSelector((state) => state.addToCart);
+  const { isLoading, data, isError } = useSelector(
     (state) => state.product
+  );
+  const { _id: userId } = useSelector(
+    (state) => state.auth.user
   );
   const noImage =
     "https://cdn.vectorstock.com/i/500p/46/50/missing-picture-page-for-website-design-or-mobile-vector-27814650.jpg";
 
   useEffect(() => {
     dispatch(getProduct(id));
+
+    return () => {
+      dispatch(resetAddToCart());
+    };
   }, [id, dispatch]);
 
   useEffect(() => {
@@ -24,7 +42,20 @@ const ProductDescription = () => {
     if (isError) {
       return toast.error("something went wrong");
     }
-  }, [id, dispatch, isError, data?.images]);
+  }, [isError, data?.images]);
+
+  useEffect(() => {
+    if (cartError) {
+      toast.error(cartError);
+    }
+    if (status === "success") {
+      toast.success(cartMessage);
+    }
+  }, [cartError, status, cartMessage]);
+  console.log(userId);
+  const handleAddToCart = () => {
+    dispatch(addToCart({ userId, productId: data._id }));
+  };
 
   return (
     <section className="w-full max-w-[1620px] mx-auto px-3 py-4 md:px-6">
@@ -92,7 +123,10 @@ const ProductDescription = () => {
           <p className="text-2xl font-bold mt-3">
             Price {data?.price}$
           </p>
-          <button className="mt-2 bg-[#545053] hover:bg-[#676265] text-white py-2 px-4 rounded-md cursor-pointer active:bg-[#858083]">
+          <button
+            onClick={handleAddToCart}
+            className="mt-2 bg-[#545053] hover:bg-[#676265] text-white py-2 px-4 rounded-md cursor-pointer active:bg-[#858083]"
+          >
             Add To Cart
           </button>
         </div>
