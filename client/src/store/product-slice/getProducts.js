@@ -3,6 +3,7 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 import axios from "axios";
 import getFiltersFromUrl from "../../utils/getFiltersFromUrl";
 
@@ -56,7 +57,7 @@ const getProducts = createAsyncThunk(
       });
 
       const res = await axios.get(
-        `http://localhost:5000/api/products?${params}`
+        `${BASE_API_URL}/products?${params}`
       );
 
       return {

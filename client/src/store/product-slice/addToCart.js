@@ -10,7 +10,7 @@ const initialState = {
   status: "idle",
   updatedCartData: null,
 };
-const BASE_URL = "http://localhost:5000/api/products";
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const addToCart = createAsyncThunk(
   "products/addToCart",
   async ({ userId, productId }, { rejectWithValue }) => {
@@ -24,7 +24,7 @@ const addToCart = createAsyncThunk(
       )
         return rejectWithValue("cant add the product");
       const res = await axios.patch(
-        `${BASE_URL}/addtocart`,
+        `${BASE_API_URL}/products/addtocart`,
         {
           userId,
           productId,

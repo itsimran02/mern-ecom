@@ -9,6 +9,8 @@ import { setUpdatedCartData } from "../../store/product-slice/addToCart.js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+const STRIPE_KEY = import.meta.env.VITE_STRIPE_KEY;
 const ShopingCart = () => {
   const dispatch = useDispatch();
   const { cartItems: userCartItems, _id: userId } =
@@ -33,11 +35,9 @@ const ShopingCart = () => {
   };
 
   const handleCheckout = async () => {
-    const stripe = await loadStripe(
-      "pk_test_51RWbpVRUIlM5wiDnCThP8L254vIBWoJxrMdTDYN2b4fQ8P18nmty6hH2mte316eabC7HwfsOLC3BviCQnNHndQP200sHzmLgmZ"
-    );
+    const stripe = await loadStripe(STRIPE_KEY);
     const res = await axios.post(
-      "http://localhost:5000/api/stripe-checkout",
+      `${BASE_API_URL}/stripe-checkout`,
       {
         products: updatedCartData || cartItems,
       }

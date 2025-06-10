@@ -1,83 +1,3 @@
-// import {
-//   createAsyncThunk,
-//   createSlice,
-// } from "@reduxjs/toolkit";
-// import axios from "axios";
-
-// const initialState = {
-//   data: null,
-//   isLoading: false,
-//   isError: null,
-//   searchKeyword: "",
-//   pagination: {
-//     total: 0,
-//     page:
-//       new URLSearchParams(window.location.search).get(
-//         "page"
-//       ) || 1,
-//     limit: 12,
-//     totalPages: 1,
-//     hasNext: false,
-//     hasPrev: false,
-//   },
-
-//   status: "idle",
-// };
-
-// const URL = "http://localhost:5000/api/products/search";
-
-// const searchProducts = createAsyncThunk(
-//   "products/search",
-//   async (searchKeyword, { rejectWithValue }) => {
-//     try {
-//       if (!searchKeyword)
-//         return rejectWithValue("Please add search keyword");
-
-//       const res = await axios.get(`${URL}?keyword=shoes}`);
-
-//       return res.data;
-//     } catch (error) {
-//       return rejectWithValue(
-//         error.message || "Something went wrong"
-//       );
-//     }
-//   }
-// );
-
-// const searchProductsSlice = createSlice({
-//   name: "searchProducts",
-//   initialState,
-//   reducers: {
-//     setSearchKeyword: (state, action) => {
-//       state.searchKeyword = action.payload;
-//     },
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(searchProducts.pending, (state) => {
-//         state.isLoading = true;
-//         state.isError = null;
-//       })
-//       .addCase(
-//         searchProducts.fulfilled,
-//         (state, action) => {
-//           state.isLoading = false;
-//           state.data = action.payload.data;
-//           state.pagination = action.payload.pagination;
-//         }
-//       )
-//       .addCase(searchProducts.rejected, (state, action) => {
-//         state.isLoading = false;
-//         state.isError = action.payload;
-//       });
-//   },
-// });
-
-// export { searchProducts };
-// export const { setSearchKeyword } =
-//   searchProductsSlice.actions;
-// export default searchProductsSlice.reducer;
-
 import {
   createAsyncThunk,
   createSlice,
@@ -108,8 +28,9 @@ const initialState = {
   },
   status: "idle",
 };
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
-const URL = "http://localhost:5000/api/products/search";
+// const URL = "http://localhost:5000/api/products/search";
 
 export const searchProducts = createAsyncThunk(
   "products/search",
@@ -138,7 +59,7 @@ export const searchProducts = createAsyncThunk(
         params.append("maxPrice", filters.maxPrice);
 
       const res = await axios.get(
-        `${URL}?${params.toString()}`
+        `${BASE_API_URL}/products/search?${params.toString()}`
       );
       return res.data;
     } catch (error) {

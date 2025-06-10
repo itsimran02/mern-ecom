@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 const RecentProducts = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.products);
-  const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   useEffect(() => {
     dispatch(getProducts());

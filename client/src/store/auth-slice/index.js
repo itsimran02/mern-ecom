@@ -10,13 +10,14 @@ const initialState = {
   user: null,
   authStatus: false,
 };
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
 const registerUser = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${BASE_API_URL}/auth/register`,
         userData,
         {
           withCredentials: true,
@@ -36,7 +37,7 @@ const loginUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${BASE_API_URL}/auth/login`,
         userData,
         {
           withCredentials: true,
@@ -62,7 +63,7 @@ const checkAuth = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/auth/check-auth",
+        `${BASE_API_URL}/auth/check-auth`,
         {
           withCredentials: true,
           headers: {

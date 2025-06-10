@@ -10,7 +10,7 @@ const initialState = {
   error: null,
   status: "idle",
 };
-const BASE_URL = "http://localhost:5000/api/products";
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
 const deleteItemFromCart = createAsyncThunk(
   "products/deleteItemFromCart",
@@ -24,7 +24,7 @@ const deleteItemFromCart = createAsyncThunk(
       if (!productId || !userId)
         return rejectWithValue("something went wrong");
       const res = await axios.patch(
-        `${BASE_URL}/deletecartItem`,
+        `${BASE_API_URL}/products/deletecartItem`,
         {
           userId,
           productId,

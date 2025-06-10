@@ -8,8 +8,7 @@ const initialState = {
   status: "idle",
   userCartItems: [],
 };
-const URL =
-  "http://localhost:5000/api/products/getcartitems";
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const getCartItems = createAsyncThunk(
   "getCartItems",
   async (cartItems, { rejectWithValue }) => {
@@ -17,9 +16,12 @@ const getCartItems = createAsyncThunk(
       if (!Array.isArray(cartItems) || !cartItems)
         return rejectWithValue("no items in the cart");
 
-      const res = await axios.post(URL, {
-        cartItems,
-      });
+      const res = await axios.post(
+        `${BASE_API_URL}/products/getcartitems`,
+        {
+          cartItems,
+        }
+      );
       if (res.data.success === "false") {
         return rejectWithValue(
           res.data.message || "something went wrong"

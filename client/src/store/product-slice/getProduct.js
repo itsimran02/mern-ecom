@@ -9,13 +9,15 @@ const initialState = {
   isError: false,
   isLoading: false,
 };
-const URL = "http://localhost:5000/api/products/";
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
 const getProduct = createAsyncThunk(
   "products/fetchId",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${URL}/${id}`);
+      const res = await axios.get(
+        `${BASE_API_URL}/products/${id}`
+      );
       if (!res.data.success)
         throw new Error("failed data fetching");
       console.log(res);
