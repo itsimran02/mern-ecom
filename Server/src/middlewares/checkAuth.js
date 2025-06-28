@@ -25,7 +25,7 @@ export const checkAuthMiddleware = async (
     const { _id, userName, email, role, cartItems } =
       findUser;
     req.user = {
-      _id,
+      id: _id,
       userName,
       email,
       role,

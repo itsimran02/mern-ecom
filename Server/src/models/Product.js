@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ProductSchema = {
+const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -34,6 +34,6 @@ const ProductSchema = {
     default: 0,
   },
   createdAt: { type: Date, default: Date.now },
-};
+});
 
 export default mongoose.model("Product", ProductSchema);

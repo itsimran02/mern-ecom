@@ -10,12 +10,18 @@ const BASE_FRONTEND_URL = FRONTEND_URL;
 
 const checkout = async (req, res, next) => {
   try {
-    const { products } = req.body;
+    const { products, userId, userEmail, userName } =
+      req.body;
+
+    const filteredProducts = JSON.stringify(
+      products.map(({ description, ...rest }) => rest)
+    );
+    console.log(filteredProducts);
     if (!products || !Array.isArray(products))
-      return next(new AppError("no items found", 404));
+      return next(new AppError("no items found", 401));
     const lineItems = products.map((product) => ({
       price_data: {
-        currency: "inr",
+        currency: "usd",
         product_data: {
           name: product.name,
           images: [product.images[0]],
@@ -24,13 +30,19 @@ const checkout = async (req, res, next) => {
       },
       quantity: product.quantity || 1,
     }));
-
+    console.log(userName);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
       success_url: `${BASE_FRONTEND_URL}/shop/payment-successfull`,
       cancel_url: `${BASE_FRONTEND_URL}/shop/payment-failed`,
+      metadata: {
+        userId: userId || "no id",
+        userEmail: userEmail || "no email",
+        products: filteredProducts,
+        userName: userName || "",
+      },
     });
     res.status(200).json({
       success: true,

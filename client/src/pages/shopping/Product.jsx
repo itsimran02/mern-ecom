@@ -11,6 +11,12 @@ import { useCallback, useEffect } from "react";
 import ProductCard from "../../components/ui/ProductCard";
 import { noImage } from "../../assets/asset";
 import { Link } from "react-router-dom";
+import {
+  Filter,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -87,140 +93,220 @@ const ProductPage = () => {
   ]);
 
   return (
-    <section className="w-full max-w-[1620px] mx-auto px-3 py-4 md:px-6">
-      <div className="flex min-h-screen">
-        <aside className="w-60 border-r text-start">
-          <div>
-            <p className="font-medium md:text-xl  ">
-              Filters
-            </p>
-
-            <p className=" ">Categories</p>
-            {categories.map((category, i) => (
-              <div key={`a+${i}`}>
-                <label>
-                  <input
-                    type="radio"
-                    value={category}
-                    name="category"
-                    checked={filters.category === category}
-                    onChange={handleCategoryChange}
-                  />
-
-                  {category}
-                </label>
-              </div>
-            ))}
-            <p className=" ">Brands</p>
-            {brands.map((brand, i) => (
-              <div key={`1+${i}`}>
-                <label>
-                  <input
-                    type="radio"
-                    value={brand}
-                    name="brand"
-                    checked={filters.brand === brand}
-                    onChange={handleBrandChange}
-                  />
-
-                  {brand}
-                </label>
-              </div>
-            ))}
-            <div className="mt-2 md:pr-1">
-              <div className="flex flex-col gap-1">
-                <label htmlFor="minPrice"> minPrice</label>
-                <input
-                  className="border-4 border-[#9a9699] focus:border-[#545053] rounded-sm outline-none py-1"
-                  type="number"
-                  id="minPrice"
-                  value={filters.minPrice || ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    dispatch(
-                      setMinPrice(
-                        value === "" ? null : Number(value)
-                      )
-                    );
-                  }}
+    <section className="w-full max-w-[1620px] mx-auto px-6 py-8">
+      <div className="flex gap-8 min-h-screen">
+        {/* Sidebar Filters */}
+        <aside className="w-72 bg-white rounded-2xl border border-gray-200 shadow-sm p-6 h-fit sticky top-8">
+          <div className="space-y-6">
+            {/* Filter Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-gray-200">
+              <div className="flex items-center space-x-2">
+                <Filter
+                  size={20}
+                  className="text-gray-600"
                 />
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Filters
+                </h2>
               </div>
+              {(filters.category ||
+                filters.brand ||
+                filters.minPrice ||
+                filters.maxPrice) && (
+                <button
+                  onClick={handleClearFilters}
+                  className="text-sm text-red-600 hover:text-red-700 font-medium transition-colors duration-200"
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
 
-              <div className="flex flex-col gap-1 mt-2">
-                <label htmlFor="maxPrice"> maxPrice</label>
-                <input
-                  className="border-4 border-[#9a9699] focus:border-[#545053] rounded-sm outline-none py-1"
-                  id="maxPrice"
-                  type="number"
-                  value={filters.maxPrice || ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    dispatch(
-                      setMaxPrice(
-                        value === "" ? null : Number(value)
-                      )
-                    );
-                  }}
-                />
+            {/* Categories */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-gray-900">
+                Categories
+              </h3>
+              <div className="space-y-2">
+                {categories.map((category, i) => (
+                  <label
+                    key={`category-${i}`}
+                    className="flex items-center space-x-3 cursor-pointer group"
+                  >
+                    <input
+                      type="radio"
+                      value={category}
+                      name="category"
+                      checked={
+                        filters.category === category
+                      }
+                      onChange={handleCategoryChange}
+                      className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
+                      {category}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Brands */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-gray-900">
+                Brands
+              </h3>
+              <div className="space-y-2">
+                {brands.map((brand, i) => (
+                  <label
+                    key={`brand-${i}`}
+                    className="flex items-center space-x-3 cursor-pointer group"
+                  >
+                    <input
+                      type="radio"
+                      value={brand}
+                      name="brand"
+                      checked={filters.brand === brand}
+                      onChange={handleBrandChange}
+                      className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
+                      {brand}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Range */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">
+                Price Range
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="minPrice"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Min Price
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
+                    type="number"
+                    id="minPrice"
+                    placeholder="$0"
+                    value={filters.minPrice || ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      dispatch(
+                        setMinPrice(
+                          value === ""
+                            ? null
+                            : Number(value)
+                        )
+                      );
+                    }}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="maxPrice"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Max Price
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
+                    id="maxPrice"
+                    type="number"
+                    placeholder="$999"
+                    value={filters.maxPrice || ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      dispatch(
+                        setMaxPrice(
+                          value === ""
+                            ? null
+                            : Number(value)
+                        )
+                      );
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <div>
-            <button
-              className="mt-6 hover:text-[#9a9699] text-[#545053] cursor-pointer"
-              onClick={handleClearFilters}
-            >
-              Clear filters
-            </button>
-          </div>
         </aside>
-        <div className="flex-1 px-2 py-4 min-h-screen">
-          <div>
-            {data && data.length > 0 && (
-              <div className="grid grid-cols-3 gap-4">
-                {data.map((product, i) => {
-                  console.log(product);
-                  return (
-                    <Link
-                      key={`${i}-a`}
-                      to={`${product._id.trim()}`}
-                    >
-                      <ProductCard
-                        image={product.images[0] || noImage}
-                        price={product.price}
-                        title={product.name}
-                        id={product.id}
-                      />
-                    </Link>
-                  );
-                })}
+
+        {/* Main Content */}
+        <div className="flex-1 space-y-8">
+          {/* Products Grid */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+            {data && data.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {data.map((product, i) => (
+                  <Link
+                    key={`product-${i}`}
+                    to={`${product._id.trim()}`}
+                    className="group"
+                  >
+                    <ProductCard
+                      image={product.images[0] || noImage}
+                      price={product.price}
+                      title={product.name}
+                      id={product.id}
+                    />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <Filter size={48} className="mx-auto" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No products found
+                </h3>
+                <p className="text-gray-600">
+                  Try adjusting your filters to see more
+                  results.
+                </p>
               </div>
             )}
           </div>
 
-          <div className="flex gap-6 items-center justify-center mt-6">
-            <button
-              disabled={!pagination.hasPrev}
-              className="disabled:bg-[#efefef] disabled:text-[#9a9699] rounded-2xl py-3 px-6  md:px-10
-                    bg-[#676265] cursor-pointer  text-white hover:bg-[#545053] transition-all ease-in"
-              onClick={() => {
-                dispatch(setPage(-1));
-              }}
-            >
-              {" "}
-              prev
-            </button>
-            <p>Total Pages {pagination.totalPages}</p>
-            <button
-              disabled={!pagination.hasNext}
-              className="disabled:bg-[#efefef]   disabled:text-[#9a9699] rounded-2xl py-3 px-6 md:px-10 bg-[#676265] hover:bg-[#545053] transition-all ease-in text-white cursor-pointer"
-              onClick={() => {
-                dispatch(setPage(1));
-              }}
-            >
-              Next
-            </button>
-          </div>
+          {/* Pagination */}
+          {data && data.length > 0 && (
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+              <div className="flex items-center justify-between">
+                <button
+                  disabled={!pagination.hasPrev}
+                  className="flex items-center space-x-2 px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-black transition-all duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
+                  onClick={() => dispatch(setPage(-1))}
+                >
+                  <ChevronLeft size={16} />
+                  <span>Previous</span>
+                </button>
+
+                <div className="flex items-center space-x-4">
+                  <span className="text-gray-600">
+                    Page {pagination.page} of{" "}
+                    {pagination.totalPages}
+                  </span>
+                </div>
+
+                <button
+                  disabled={!pagination.hasNext}
+                  className="flex items-center space-x-2 px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-black transition-all duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
+                  onClick={() => dispatch(setPage(1))}
+                >
+                  <span>Next</span>
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

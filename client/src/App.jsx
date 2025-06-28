@@ -4,7 +4,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import AdminLayout from "./components/admin-view/Layout";
 import AdminDashboard from "./pages/admin/Dashboard";
-import AdminProducts from "./pages/admin/Products";
+import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminOrders from "./pages/admin/Orders";
 import AdminFeatures from "./pages/admin/Features";
 import ShoppingLayout from "./components/shopping-view/Layout";
@@ -23,6 +23,8 @@ import SearchProducts from "./pages/shopping/ProductsSearch";
 import ShopingCart from "./pages/shopping/ShopingCart";
 import CancelPage from "./pages/payment/Cancel";
 import SuccessfullPage from "./pages/payment/Successfull";
+import Profile from "./pages/common/Profile";
+import AddNewProduct from "./pages/admin/AddProducts.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +79,10 @@ function App() {
             element={<AdminDashboard />}
           />
           <Route
+            path="addproduct"
+            element={<AddNewProduct />}
+          />
+          <Route
             path="products"
             element={<AdminProducts />}
           />
@@ -86,6 +92,7 @@ function App() {
             element={<AdminFeatures />}
           />
         </Route>
+        <Route path="profile" element={<Profile />} />
 
         {/* shopping routes  */}
 
@@ -133,6 +140,7 @@ function App() {
             path="products/search"
             element={<SearchProducts />}
           />
+          <Route path="profile" element={<Profile />} />
 
           <Route
             path="home"

@@ -80,6 +80,7 @@ const getProducts = async (req, res, next) => {
 
 const addProduct = async (req, res, next) => {
   try {
+    console.log("add product controller");
     const { error } = productSchemaValidator.validate(
       req.body
     );
@@ -104,11 +105,11 @@ const addProduct = async (req, res, next) => {
       ...req.body,
       images: imageLinks,
     });
+    await product.save();
 
-    const savedProduct = await product.save();
     return res.status(201).json({
       success: true,
-      savedProduct,
+      message: "product added successfully",
     });
   } catch (error) {
     const err = new AppError(

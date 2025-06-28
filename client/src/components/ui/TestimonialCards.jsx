@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, FreeMode } from "swiper/modules";
 import "swiper/css";
@@ -131,15 +130,15 @@ const testimonialData = [
 
 const TestimonialCards = ({ prevRef, nextRef }) => {
   return (
-    <div className="relative w-full px-4 max-w-[1620px] mx-auto w-full">
+    <div className="relative w-full px-6 max-w-[1620px] mx-auto">
       <Swiper
         modules={[Navigation, FreeMode]}
-        spaceBetween={20}
+        spaceBetween={24}
         freeMode={true}
         slidesPerView={1}
         breakpoints={{
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
+          640: { slidesPerView: 2, spaceBetween: 20 },
+          1024: { slidesPerView: 3, spaceBetween: 24 },
         }}
         navigation={{
           prevEl: prevRef.current,
@@ -149,18 +148,19 @@ const TestimonialCards = ({ prevRef, nextRef }) => {
           swiper.params.navigation.prevEl = prevRef.current;
           swiper.params.navigation.nextEl = nextRef.current;
         }}
+        className="testimonial-swiper"
       >
         {testimonialData.map((testimonial, i) => (
-          <SwiperSlide key={i}>
-            <div className="bg-white p-6 border border-black/10 rounded-2xl flex flex-col gap-4">
-              <div className="flex">
+          <SwiperSlide key={i} className="h-auto">
+            <div className="group bg-white p-6 border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg hover:border-gray-200 transition-all duration-300 ease-out h-full flex flex-col">
+              <div className="flex items-center mb-4">
                 {renderStars(testimonial?.rating, i)}
               </div>
-              <p className="text-black text-lg font-semibold">
+              <h3 className="text-gray-900 text-lg font-semibold mb-3 group-hover:text-blue-600 transition-colors duration-200">
                 {testimonial.name}
-              </p>
-              <p className="text-black/60 text-base">
-                {testimonial.message}
+              </h3>
+              <p className="text-gray-600 text-base leading-relaxed flex-1">
+                "{testimonial.message}"
               </p>
             </div>
           </SwiperSlide>

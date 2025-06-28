@@ -1,6 +1,5 @@
 import renderStars from "../../utils/renderStars";
 
-// Product Card Component
 const ProductCard = ({
   image,
   title,
@@ -10,64 +9,19 @@ const ProductCard = ({
   id,
   onAddToCart = () => {},
 }) => {
-  //   Function to render stars based on rating
-  //   const renderStars = (rating) => {
-  //     const stars = [];
-  //     const fullStars = Math.floor(rating);
-  //     const hasHalfStar = rating % 1 !== 0;
-
-  //     // Add full stars
-  //     for (let i = 0; i < fullStars; i++) {
-  //       stars.push(
-  //         <Star
-  //           key={`star-${i}`}
-  //           size={16}
-  //           className="fill-yellow-400 text-yellow-400"
-  //         />
-  //       );
-  //     }
-
-  //     // Add half star if needed
-  //     if (hasHalfStar) {
-  //       stars.push(
-  //         <StarHalf
-  //           key="half-star"
-  //           size={16}
-  //           className="fill-yellow-400 text-yellow-400"
-  //         />
-  //       );
-  //     }
-
-  //     // Add empty stars
-  //     const emptyStars = 5 - Math.ceil(rating);
-  //     for (let i = 0; i < emptyStars; i++) {
-  //       stars.push(
-  //         <Star
-  //           key={`empty-star-${i}`}
-  //           size={16}
-  //           className="text-gray-300"
-  //         />
-  //       );
-  //     }
-
-  //     return stars;
-  //   };
-
   return (
-    <div className=" group  min-w-[80%] relative bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+    <div className="group min-w-[80%] relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-gray-200 transition-all duration-300 ease-out">
       {/* Product Image */}
-      <div className="relative  h-85 overflow-hidden">
+      <div className="relative h-85 overflow-hidden bg-gray-50">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         />
-
-        {/* Quick actions overlay */}
 
         {/* Discount tag if available */}
         {discountPrice && (
-          <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-md text-xs font-medium">
+          <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg">
             {Math.round(
               ((price - discountPrice) / price) * 100
             )}
@@ -77,34 +31,34 @@ const ProductCard = ({
       </div>
 
       {/* Product Info */}
-      <div className="p-4">
-        <h3 className="font-medium text-gray-900 mb-1 truncate">
+      <div className="p-5 space-y-3">
+        <h3 className="font-semibold text-gray-900 text-sm leading-relaxed line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
           {title}
         </h3>
 
         {/* Rating */}
-        <div className="flex items-center mb-2">
-          <div className="flex mr-1">
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center">
             {renderStars(rating, id)}
           </div>
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-gray-500 font-medium">
             ({rating?.toFixed(1)})
           </span>
         </div>
 
         {/* Price */}
-        <div className="flex items-center">
+        <div className="flex items-baseline space-x-2 pt-1">
           {discountPrice ? (
             <>
-              <span className="text-gray-900 font-medium">
+              <span className="text-lg font-bold text-gray-900">
                 ${discountPrice.toFixed(2)}
               </span>
-              <span className="ml-2 text-gray-500 text-sm line-through">
+              <span className="text-sm text-gray-400 line-through">
                 ${price?.toFixed(2)}
               </span>
             </>
           ) : (
-            <span className="text-gray-900 font-medium">
+            <span className="text-lg font-bold text-gray-900">
               ${price?.toFixed(2)}
             </span>
           )}
