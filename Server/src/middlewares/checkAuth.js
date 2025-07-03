@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import AppError from "../utils/appError.js";
+import { JWT_SECRET_KEY } from "../config/envConfig.js";
 
 export const checkAuthMiddleware = async (
   req,
@@ -14,10 +15,7 @@ export const checkAuthMiddleware = async (
   }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET_KEY
-    );
+    const decoded = jwt.verify(token, JWT_SECRET_KEY);
 
     const findUser = await User.findById(decoded.userId);
     if (!findUser)

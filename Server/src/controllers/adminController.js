@@ -92,4 +92,46 @@ const getCustomers = async (req, res, next) => {
 //   }
 // };
 
-export { getOrders, getCustomers };
+const changeOrderStatus = async (req, res, next) => {
+  try {
+    const { token } = req.cookies;
+    const { orderId, orderStatus } = req.body;
+    console.log(orderStatus);
+    if (!token)
+      return next(new AppError("unauthorized requst", 401));
+    if (
+      !orderId ||
+      !orderStatus ||
+      typeof orderStatus !== "string"
+    )
+      return next(new AppError("no order found", 404));
+    const decode = jwt.verify(token, JWT_SECRET_KEY);
+    if (decode.role !== "admin") {
+      return next(
+        new AppError("unauthorized request", 401)
+      );
+    }
+
+    const order = await Order.findByIdAndUpdate(
+      orderId,
+      {
+        status: orderStatus,
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      order: order,
+    });
+  } catch (error) {
+    return next(
+      new AppError(
+        error.message || "something went wrong",
+        500
+      )
+    );
+  }
+};
+
+export { getOrders, getCustomers, changeOrderStatus };

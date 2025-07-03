@@ -12,6 +12,8 @@ import { getOrders } from "../../store/admin/order-slice/getOrder.js";
 import { useEffect } from "react";
 import { getProducts } from "../../store/product-slice/getProducts.js";
 import { getCustomers } from "../../store/admin/customer-slice/getCustomer.js";
+import getStatusColor from "../../utils/StatusColor.js";
+import getIconColor from "../../utils/iconColor.js";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -29,7 +31,7 @@ const Dashboard = () => {
     dispatch(getOrders());
     dispatch(getProducts());
     dispatch(getCustomers());
-  }, [getProducts, getOrders, getCustomers]);
+  }, [dispatch]);
   const stats = [
     {
       title: "Total Orders",
@@ -68,36 +70,6 @@ const Dashboard = () => {
       revenue: "$630",
     },
   ];
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-100 text-green-800";
-      case "processing":
-        return "bg-blue-100 text-blue-800";
-      case "shipped":
-        return "bg-purple-100 text-purple-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getIconColor = (color) => {
-    switch (color) {
-      case "blue":
-        return "bg-blue-500";
-      case "green":
-        return "bg-green-500";
-      case "purple":
-        return "bg-purple-500";
-      case "orange":
-        return "bg-orange-500";
-      default:
-        return "bg-gray-500";
-    }
-  };
 
   return (
     <div className="space-y-6 relative">
@@ -162,7 +134,7 @@ const Dashboard = () => {
                 Recent Orders
               </h2>
               <button className="text-blue-600 hover:text-blue-700 flex items-center space-x-1 text-sm font-medium">
-                <span>View all</span>
+                <Link to="/admin/orders">View all</Link>
                 <ArrowRight size={14} />
               </button>
             </div>
@@ -262,12 +234,18 @@ const Dashboard = () => {
               Add New Product
             </span>
           </Link>
-          <button className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <Link
+            to="/admin/orders"
+            className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
             <Eye className="text-green-600" size={20} />
-            <span className="font-medium text-gray-900">
+            <Link
+              to="/admin/orders"
+              className="font-medium text-gray-900"
+            >
               View All Orders
-            </span>
-          </button>
+            </Link>
+          </Link>
           <button className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
             <Users className="text-purple-600" size={20} />
             <span className="font-medium text-gray-900">
