@@ -3,9 +3,9 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 import axios from "axios";
 import getFiltersFromUrl from "../../utils/getFiltersFromUrl";
+import { BASE_API_URL } from "../../config/apiConfig";
 
 const initialState = {
   data: [],

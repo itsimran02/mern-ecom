@@ -3,6 +3,7 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BASE_API_URL } from "../../config/apiConfig";
 
 const initialState = {
   message: "",
@@ -10,7 +11,7 @@ const initialState = {
   status: "idle",
   updatedCartData: null,
 };
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+
 const addToCart = createAsyncThunk(
   "products/addToCart",
   async ({ userId, productId }, { rejectWithValue }) => {

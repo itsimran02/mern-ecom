@@ -13,9 +13,10 @@ import { deleteItemFromCart } from "../../store/product-slice/deleteFromCart.js"
 import { setUpdatedCartData } from "../../store/product-slice/addToCart.js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
-const STRIPE_KEY = import.meta.env.VITE_STRIPE_KEY;
+import {
+  BASE_API_URL,
+  STRIPE_KEY,
+} from "../../config/apiConfig.js";
 
 const ShoppingCart = () => {
   const { user } = useSelector((state) => state.auth);

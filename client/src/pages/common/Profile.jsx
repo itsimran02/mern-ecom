@@ -1,12 +1,12 @@
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { BASE_API_URL } from "../../config/apiConfig";
 
 const Profile = () => {
   const { userName, email } = useSelector(
     (state) => state.auth.user
   );
-  const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
   const handleLogout = async () => {
     try {

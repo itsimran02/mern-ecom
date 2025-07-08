@@ -25,6 +25,7 @@ import CancelPage from "./pages/payment/Cancel";
 import SuccessfullPage from "./pages/payment/Successfull";
 import Profile from "./pages/common/Profile";
 import AddNewProduct from "./pages/admin/AddProducts.jsx";
+import UpdateProduct from "./components/admin-view/UpdateProduct.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -81,6 +82,14 @@ function App() {
           <Route
             path="addproduct"
             element={<AddNewProduct />}
+          />
+          <Route
+            path="customers"
+            element={<UpdateProduct />}
+          />
+          <Route
+            path="products/updateproduct/:productId"
+            element={<UpdateProduct />}
           />
           <Route
             path="products"

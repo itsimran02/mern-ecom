@@ -3,13 +3,13 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BASE_API_URL } from "../../config/apiConfig";
 
 const initialState = {
   data: null,
   isError: false,
   isLoading: false,
 };
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
 const getProduct = createAsyncThunk(
   "products/fetchId",

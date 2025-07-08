@@ -8,6 +8,7 @@ import getCartItems from "./product-slice/getCartItems.js";
 import deleteCartItem from "./product-slice/deleteFromCart.js";
 import getOrders from "./admin/order-slice/getOrder.js";
 import getCustomers from "./admin/customer-slice/getCustomer.js";
+import deleteProduct from "./admin/product-slice/deleteProduct.js";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     deletItem: deleteCartItem,
     getOrders,
     customers: getCustomers,
+    deleteProduct: deleteProduct,
   },
 });
 

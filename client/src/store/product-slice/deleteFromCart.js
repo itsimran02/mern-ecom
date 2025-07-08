@@ -4,13 +4,13 @@ import {
 } from "@reduxjs/toolkit";
 import { setCartItems } from "./getCartItems.js";
 import axios from "axios";
+import { BASE_API_URL } from "../../config/apiConfig.js";
 
 const initialState = {
   message: "",
   error: null,
   status: "idle",
 };
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
 const deleteItemFromCart = createAsyncThunk(
   "products/deleteItemFromCart",

@@ -1,6 +1,20 @@
 import { Menu, Bell, Search, User } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  searchProducts,
+  setSearchKeyword,
+} from "../../store/product-slice/searchProducts";
 
 const AdminHeader = ({ setSidebarOpen }) => {
+  const disptach = useDispatch();
+  const { searchKeyword } = useSelector(
+    (state) => state.searchProducts
+  );
+
+  const searchHandler = (e) => {
+    const query = e.target.value;
+    disptach(setSearchKeyword(query));
+  };
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
       <div className="flex items-center justify-between px-4 py-3 lg:px-6">
@@ -21,6 +35,12 @@ const AdminHeader = ({ setSidebarOpen }) => {
               className="text-gray-500 mr-2"
             />
             <input
+              onChange={(e) => searchHandler(e)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  disptach(searchProducts());
+                }
+              }}
               type="text"
               placeholder="Search..."
               className="bg-transparent outline-none text-sm w-full"

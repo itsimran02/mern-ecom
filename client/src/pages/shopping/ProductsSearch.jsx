@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setPage,
+  setSearchPage,
   setCategory,
   setBrand,
   setMaxPrice,
   setMinPrice,
   searchProducts,
   setSearchKeyword,
-} from "../../store/product-slice/searchProducts";
+} from "../../store/product-slice/searchProducts.js";
 import { useEffect } from "react";
 import ProductCard from "../../components/ui/ProductCard";
 import { noImage } from "../../assets/asset";
@@ -224,7 +224,7 @@ const SearchProducts = () => {
                 className="disabled:bg-[#efefef] disabled:text-[#9a9699] rounded-2xl py-3 px-6 md:px-10
                       bg-[#676265] cursor-pointer text-white hover:bg-[#545053] transition-all ease-in"
                 onClick={() => {
-                  dispatch(setPage(-1));
+                  dispatch(setSearchPage(-1));
                 }}
               >
                 Prev
@@ -237,7 +237,7 @@ const SearchProducts = () => {
                 disabled={!pagination.hasNext}
                 className="disabled:bg-[#efefef] disabled:text-[#9a9699] rounded-2xl py-3 px-6 md:px-10 bg-[#676265] hover:bg-[#545053] transition-all ease-in text-white cursor-pointer"
                 onClick={() => {
-                  dispatch(setPage(1));
+                  dispatch(setSearchPage(1));
                 }}
               >
                 Next

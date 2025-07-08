@@ -2,14 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BASE_API_URL } from "../../../config/apiConfig";
 
 const initialState = {
   status: "idle",
   error: null,
   customers: [],
 };
-
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
 const getCustomers = createAsyncThunk(
   "admin/getCustomers",

@@ -3,6 +3,7 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BASE_API_URL } from "../../config/apiConfig";
 
 const initialState = {
   data: [],
@@ -28,9 +29,6 @@ const initialState = {
   },
   status: "idle",
 };
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
-
-// const URL = "http://localhost:5000/api/products/search";
 
 export const searchProducts = createAsyncThunk(
   "products/search",
@@ -44,7 +42,6 @@ export const searchProducts = createAsyncThunk(
         return rejectWithValue("Please add search keyword");
       }
 
-      // Construct query parameters
       const params = new URLSearchParams();
       params.append("keyword", searchKeyword);
       params.append("page", pagination.page);
@@ -77,8 +74,8 @@ const searchProductsSlice = createSlice({
     setSearchKeyword: (state, action) => {
       state.searchKeyword = action.payload;
     },
-    setPage: (state, action) => {
-      // Increment or decrement page based on passed value
+    setSearchPage: (state, action) => {
+      console.log("setSearchPageClicked");
       const newPage =
         Number(state.pagination.page) + action.payload;
       state.pagination.page = newPage;
@@ -119,7 +116,7 @@ const searchProductsSlice = createSlice({
 
 export const {
   setSearchKeyword,
-  setPage,
+  setSearchPage,
   setCategory,
   setBrand,
   setMinPrice,

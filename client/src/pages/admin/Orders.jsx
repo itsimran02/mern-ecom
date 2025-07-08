@@ -11,8 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../../store/admin/order-slice/getOrder";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+import { BASE_API_URL } from "../../config/apiConfig";
 
 const AdminOrders = () => {
   const dispatch = useDispatch();
