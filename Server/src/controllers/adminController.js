@@ -239,10 +239,45 @@ const updateProduct = async (req, res, next) => {
   }
 };
 
+const deleteCustomer = async (req, res, next) => {
+  try {
+    const { token } = req.cookies;
+    const { customerId } = req.params;
+
+    if (!token || !customerId) {
+      return next(
+        new AppError("unauthorized request", 401)
+      );
+    }
+    const decoded = jwt.verify(token, JWT_SECRET_KEY);
+    if (decoded.role !== "admin") {
+      return next(new AppError("bad gatway", 403));
+    }
+    const deleteCustomer = await User.findByIdAndDelete(
+      customerId
+    );
+    if (!deleteCustomer) {
+      return next(new AppError("no user found", 404));
+    }
+    return res.status(200).json({
+      success: true,
+      message: "customer deleted successfully",
+    });
+  } catch (error) {
+    return next(
+      new AppError(
+        error.message || "something went wrong",
+        500
+      )
+    );
+  }
+};
+
 export {
   updateProduct,
   getOrders,
   getCustomers,
   changeOrderStatus,
   deleteProduct,
+  deleteCustomer,
 };

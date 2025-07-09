@@ -150,7 +150,7 @@ const UpdateProduct = () => {
                 ],
               }));
             }}
-            className="mt-1"
+            className="mt-1 rounded bg-gray-600 text-white p-3 cursor-pointer"
           />
 
           {updateData.images.length >= 1 && (
@@ -179,7 +179,7 @@ const UpdateProduct = () => {
 
       <button
         onClick={handlesSubmit}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md text-center flex justify-center"
+        className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md text-center flex justify-center"
       >
         {isLoading ? (
           <Loader2 className="animate-spin" />

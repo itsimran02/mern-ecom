@@ -6,7 +6,7 @@ import AdminLayout from "./components/admin-view/Layout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminOrders from "./pages/admin/Orders";
-import AdminFeatures from "./pages/admin/Features";
+
 import ShoppingLayout from "./components/shopping-view/Layout";
 import NotFoundPage from "./pages/not-found";
 import AccountPage from "./pages/shopping/Account";
@@ -26,6 +26,7 @@ import SuccessfullPage from "./pages/payment/Successfull";
 import Profile from "./pages/common/Profile";
 import AddNewProduct from "./pages/admin/AddProducts.jsx";
 import UpdateProduct from "./components/admin-view/UpdateProduct.jsx";
+import Customers from "./pages/admin/Customers.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -83,10 +84,7 @@ function App() {
             path="addproduct"
             element={<AddNewProduct />}
           />
-          <Route
-            path="customers"
-            element={<UpdateProduct />}
-          />
+          <Route path="customers" element={<Customers />} />
           <Route
             path="products/updateproduct/:productId"
             element={<UpdateProduct />}
@@ -96,10 +94,6 @@ function App() {
             element={<AdminProducts />}
           />
           <Route path="orders" element={<AdminOrders />} />
-          <Route
-            path="features"
-            element={<AdminFeatures />}
-          />
         </Route>
         <Route path="profile" element={<Profile />} />
 

@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  ShoppingCart,
-  Filter,
-  ChevronDown,
-  Search,
-  Eye,
-} from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import getStatusColor from "../../utils/StatusColor";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../../store/admin/order-slice/getOrder";

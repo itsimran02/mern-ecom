@@ -68,7 +68,7 @@ const Products = () => {
   const onConfirm = () => {
     dispatch(deleteProduct(productId)).then(() =>
       dispatch(
-        searchProducts.length > 0
+        searchedProducts.length > 0
           ? searchProducts()
           : getProducts()
       )

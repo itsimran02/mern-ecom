@@ -40,16 +40,12 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
       label: "Customers",
       path: "/admin/customers",
     },
-    {
-      icon: BarChart3,
-      label: "Analytics",
-      path: "/admin/analytics",
-    },
-    {
-      icon: Settings,
-      label: "Settings",
-      path: "/admin/settings",
-    },
+
+    // {
+    //   icon: Settings,
+    //   label: "Settings",
+    //   path: "/admin/settings",
+    // },
   ];
 
   const isActive = (path) => location.pathname === path;

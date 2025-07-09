@@ -16,7 +16,7 @@ const getOrders = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${BASE_API_URL}/admin/getorders`,
+        `${BASE_API_URL}/admin/orders`,
         {},
         {
           withCredentials: true,

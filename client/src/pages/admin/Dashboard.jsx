@@ -20,7 +20,7 @@ const Dashboard = () => {
   const { orders } = useSelector(
     (state) => state.getOrders
   );
-  console.log(orders);
+
   const { data: products } = useSelector(
     (state) => state.products
   );
@@ -39,6 +39,7 @@ const Dashboard = () => {
 
       icon: ShoppingCart,
       color: "blue",
+      link: "/admin/orders",
     },
     {
       title: "Products",
@@ -46,28 +47,15 @@ const Dashboard = () => {
 
       icon: Package,
       color: "green",
+      link: "/admin/products",
     },
     {
       title: "Customers",
       value: customers?.length || 0,
+      link: "/admin/customers",
 
       icon: Users,
       color: "purple",
-    },
-  ];
-
-  const topProducts = [
-    {
-      name: "Wireless Headphones",
-      sales: 45,
-      revenue: "$1,350",
-    },
-    { name: "Smart Watch", sales: 32, revenue: "$960" },
-    { name: "Phone Case", sales: 28, revenue: "$420" },
-    {
-      name: "Bluetooth Speaker",
-      sales: 21,
-      revenue: "$630",
     },
   ];
 
@@ -100,7 +88,8 @@ const Dashboard = () => {
           const Icon = stat.icon;
 
           return (
-            <div
+            <Link
+              to={stat.link}
               key={index}
               className="bg-white rounded-lg shadow-sm p-6"
             >
@@ -121,13 +110,13 @@ const Dashboard = () => {
                   <Icon size={20} className="text-white" />
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm">
+      <div className="grid">
+        <div className=" bg-white rounded-lg shadow-sm">
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">
@@ -181,7 +170,7 @@ const Dashboard = () => {
         </div>
 
         {/* Top Products */}
-        <div className="bg-white rounded-lg shadow-sm">
+        {/* <div className="bg-white rounded-lg shadow-sm">
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-lg font-semibold text-gray-900">
               Top Products
@@ -217,7 +206,7 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="bg-white rounded-lg shadow-sm p-6">
@@ -246,12 +235,15 @@ const Dashboard = () => {
               View All Orders
             </Link>
           </Link>
-          <button className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <Link
+            to="/admin/customers"
+            className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
             <Users className="text-purple-600" size={20} />
             <span className="font-medium text-gray-900">
               Manage Customers
             </span>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ const initialState = {
   status: "idle",
   error: null,
   customers: [],
+  loading: false,
 };
 
 const getCustomers = createAsyncThunk(
@@ -15,7 +16,7 @@ const getCustomers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${BASE_API_URL}/admin/getcustomers`,
+        `${BASE_API_URL}/admin/customers`,
         {},
         {
           withCredentials: true,

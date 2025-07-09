@@ -1,16 +1,37 @@
 import { Menu, Bell, Search, User } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   searchProducts,
   setSearchKeyword,
 } from "../../store/product-slice/searchProducts";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { BASE_API_URL } from "../../config/apiConfig";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const AdminHeader = ({ setSidebarOpen }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const disptach = useDispatch();
-  const { searchKeyword } = useSelector(
-    (state) => state.searchProducts
-  );
+  const navigate = useNavigate();
 
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post(
+        `${BASE_API_URL}/user/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        toast.success(res?.data?.message);
+        window.location.href = "/auth/login";
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   const searchHandler = (e) => {
     const query = e.target.value;
     disptach(setSearchKeyword(query));
@@ -39,6 +60,7 @@ const AdminHeader = ({ setSidebarOpen }) => {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   disptach(searchProducts());
+                  navigate("/admin/products");
                 }
               }}
               type="text"
@@ -55,22 +77,29 @@ const AdminHeader = ({ setSidebarOpen }) => {
             <Search size={20} />
           </button>
 
-          {/* Notifications */}
-          <button className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 relative">
-            <Bell size={20} />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              3
-            </span>
-          </button>
-
           {/* Profile */}
-          <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2">
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-              <User size={16} className="text-white" />
+          <div className="flex justify-center flex-col items-center gap-2 ">
+            <div
+              className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
+              onClick={() => setIsOpen((state) => !state)}
+            >
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <User size={16} className="text-white" />
+              </div>
+              <span className="hidden sm:block text-sm font-medium text-gray-700">
+                Admin
+              </span>
             </div>
-            <span className="hidden sm:block text-sm font-medium text-gray-700">
-              Admin
-            </span>
+            {isOpen && (
+              <div className="transition-all ease-in duration-150">
+                <button
+                  onClick={handleLogout}
+                  className="cursor-pointer"
+                >
+                  LogOut
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
