@@ -6,12 +6,9 @@ import AdminLayout from "./components/admin-view/Layout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminOrders from "./pages/admin/Orders";
-
 import ShoppingLayout from "./components/shopping-view/Layout";
 import NotFoundPage from "./pages/not-found";
 import AccountPage from "./pages/shopping/Account";
-import CheckoutPage from "./pages/shopping/Checkout";
-import ListingPage from "./pages/shopping/Listing";
 import HomePage from "./pages/shopping/Home";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { useDispatch } from "react-redux";
@@ -122,14 +119,7 @@ function App() {
             element={<AccountPage />}
             replace
           />
-          <Route
-            path="checkout"
-            element={<CheckoutPage />}
-          />
-          <Route
-            path="listings"
-            element={<ListingPage />}
-          />
+
           <Route
             path="products"
             element={<ProductPage />}

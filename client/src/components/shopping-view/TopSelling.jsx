@@ -12,7 +12,10 @@ const TopSelling = () => {
   }, [dispatch]);
   return (
     <>
-      <div className="max-w-[1620px] mx-auto lg:py-[55px] py-[35px] ">
+      <div
+        id="topSelling"
+        className=" max-w-[1620px] mx-auto lg:py-[55px] py-[35px] "
+      >
         <div>
           <h2 className="heading-secondary font-main">
             TOP SELLING

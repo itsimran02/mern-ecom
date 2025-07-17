@@ -61,15 +61,19 @@ const Header = () => {
             >
               Shop
             </Link>
-            <li className="text-gray-800 hover:text-black font-medium cursor-pointer">
-              On Sale
-            </li>
-            <li className="text-gray-800 hover:text-black font-medium cursor-pointer">
-              New Arrivals
-            </li>
-            <li className="text-gray-800 hover:text-black font-medium cursor-pointer">
-              Brands
-            </li>
+
+            <a
+              href="#recentProducts"
+              className="text-gray-800 hover:text-black font-medium cursor-pointer"
+            >
+              Recent Products
+            </a>
+            <a
+              href="#topSelling"
+              className="text-gray-800 hover:text-black font-medium cursor-pointer"
+            >
+              Top Selling
+            </a>
           </ul>
         </div>
 

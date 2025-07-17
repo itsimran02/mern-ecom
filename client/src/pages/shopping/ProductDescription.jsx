@@ -54,11 +54,13 @@ const ProductDescription = () => {
   useEffect(() => {
     if (cartError) {
       toast.error(cartError);
+      dispatch(resetAddToCart());
     }
     if (status === "success") {
       toast.success(cartMessage);
+      dispatch(resetAddToCart());
     }
-  }, [cartError, status, cartMessage]);
+  }, [cartError, status, cartMessage, dispatch]);
 
   const handleAddToCart = () => {
     if (!user) {
@@ -67,7 +69,9 @@ const ProductDescription = () => {
     }
     dispatch(
       addToCart({ userId: user?.id, productId: data._id })
-    );
+    ).then(() => {
+      return dispatch(resetAddToCart());
+    });
   };
 
   const handleImageLoad = () => {

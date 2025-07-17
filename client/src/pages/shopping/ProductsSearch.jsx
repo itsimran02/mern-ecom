@@ -8,14 +8,24 @@ import {
   searchProducts,
   setSearchKeyword,
 } from "../../store/product-slice/searchProducts.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../../components/ui/ProductCard";
 import { noImage } from "../../assets/asset";
 import { Link, useLocation } from "react-router-dom";
+import {
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Menu,
+  Search,
+} from "lucide-react";
 
 const SearchProducts = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const [showFilters, setShowFilters] = useState(false);
+
   const {
     data,
     pagination,
@@ -24,8 +34,7 @@ const SearchProducts = () => {
     isLoading,
     isError,
   } = useSelector((state) => state.searchProducts);
-  console.log("serach data");
-  // Get categories and brands from available products
+
   const categories =
     data?.length > 0
       ? [
@@ -40,7 +49,6 @@ const SearchProducts = () => {
       ? [...new Set(data.map((product) => product?.brand))]
       : [];
 
-  // Extract search keyword from URL if available
   useEffect(() => {
     const queryParams = new URLSearchParams(
       location.search
@@ -56,9 +64,7 @@ const SearchProducts = () => {
     }
   }, [location.search, dispatch, searchKeyword]);
 
-  // Handle filter changes
   useEffect(() => {
-    // Only dispatch search if we have a keyword
     if (searchKeyword) {
       dispatch(searchProducts());
     }
@@ -79,169 +85,280 @@ const SearchProducts = () => {
     dispatch(setBrand(null));
   };
 
-  return (
-    <section className="w-full max-w-[1620px] mx-auto px-3 py-4 md:px-6">
-      <div className="flex min-h-screen">
-        <aside className="w-60 border-r text-start">
-          <div>
-            <p className="font-medium md:text-xl">
+  const FilterSidebar = ({ className = "" }) => (
+    <aside
+      className={`bg-white rounded-2xl border border-gray-200 shadow-sm p-6 ${className}`}
+    >
+      <div className="space-y-6">
+        <div className="flex items-center justify-between pb-4 border-b border-gray-200">
+          <div className="flex items-center space-x-2">
+            <Filter size={20} className="text-gray-600" />
+            <h2 className="text-xl font-semibold text-gray-900">
               Filters
-            </p>
+            </h2>
+          </div>
+          <div className="flex items-center space-x-2">
+            {(filters.category ||
+              filters.brand ||
+              filters.minPrice ||
+              filters.maxPrice) && (
+              <button
+                onClick={handleClearFilters}
+                className="text-sm text-red-600 hover:text-red-700 font-medium transition-colors duration-200"
+              >
+                Clear All
+              </button>
+            )}
+            <button
+              onClick={() => setShowFilters(false)}
+              className="lg:hidden p-1 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+            >
+              <X size={20} className="text-gray-600" />
+            </button>
+          </div>
+        </div>
 
-            {/* Categories filter */}
-            <p className="">Categories</p>
-            {categories.map((category, i) => (
-              <div key={`category-${i}`}>
-                <label>
+        {categories.length > 0 && (
+          <div className="space-y-3">
+            <h3 className="text-lg font-medium text-gray-900">
+              Categories
+            </h3>
+            <div className="space-y-2">
+              {categories.map((category, i) => (
+                <label
+                  key={`category-${i}`}
+                  className="flex items-center space-x-3 cursor-pointer group"
+                >
                   <input
                     type="radio"
                     value={category}
                     name="category"
                     checked={filters.category === category}
                     onChange={handleCategoryChange}
-                  />{" "}
-                  {category}
+                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                  />
+                  <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
+                    {category}
+                  </span>
                 </label>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+        )}
 
-            {/* Brands filter */}
-            <p className="">Brands</p>
-            {brands.map((brand, i) => (
-              <div key={`brand-${i}`}>
-                <label>
+        {brands.length > 0 && (
+          <div className="space-y-3">
+            <h3 className="text-lg font-medium text-gray-900">
+              Brands
+            </h3>
+            <div className="space-y-2">
+              {brands.map((brand, i) => (
+                <label
+                  key={`brand-${i}`}
+                  className="flex items-center space-x-3 cursor-pointer group"
+                >
                   <input
                     type="radio"
                     value={brand}
                     name="brand"
                     checked={filters.brand === brand}
                     onChange={handleBrandChange}
-                  />{" "}
-                  {brand}
+                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                  />
+                  <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
+                    {brand}
+                  </span>
                 </label>
-              </div>
-            ))}
-
-            {/* Price filters */}
-            <div className="mt-2 md:pr-1">
-              <div className="flex flex-col gap-1">
-                <label htmlFor="minPrice">Min Price</label>
-                <input
-                  className="border-4 border-[#9a9699] focus:border-[#545053] rounded-sm outline-none py-1"
-                  type="number"
-                  id="minPrice"
-                  value={filters.minPrice || ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    dispatch(
-                      setMinPrice(
-                        value === "" ? null : Number(value)
-                      )
-                    );
-                  }}
-                />
-              </div>
-
-              <div className="flex flex-col gap-1 mt-2">
-                <label htmlFor="maxPrice">Max Price</label>
-                <input
-                  className="border-4 border-[#9a9699] focus:border-[#545053] rounded-sm outline-none py-1"
-                  id="maxPrice"
-                  type="number"
-                  value={filters.maxPrice || ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    dispatch(
-                      setMaxPrice(
-                        value === "" ? null : Number(value)
-                      )
-                    );
-                  }}
-                />
-              </div>
+              ))}
             </div>
           </div>
-          <div>
-            <button
-              className="mt-6 hover:text-[#9a9699] text-[#545053] cursor-pointer"
-              onClick={handleClearFilters}
-            >
-              Clear filters
-            </button>
+        )}
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium text-gray-900">
+            Price Range
+          </h3>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <label
+                htmlFor="minPrice"
+                className="text-sm font-medium text-gray-700"
+              >
+                Min Price
+              </label>
+              <input
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
+                type="number"
+                id="minPrice"
+                placeholder="$0"
+                value={filters.minPrice || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  dispatch(
+                    setMinPrice(
+                      value === "" ? null : Number(value)
+                    )
+                  );
+                }}
+              />
+            </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="maxPrice"
+                className="text-sm font-medium text-gray-700"
+              >
+                Max Price
+              </label>
+              <input
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
+                id="maxPrice"
+                type="number"
+                placeholder="$999"
+                value={filters.maxPrice || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  dispatch(
+                    setMaxPrice(
+                      value === "" ? null : Number(value)
+                    )
+                  );
+                }}
+              />
+            </div>
           </div>
-        </aside>
+        </div>
+      </div>
+    </aside>
+  );
 
-        {/* Products display */}
-        <div className="flex-1 px-2 py-4 min-h-screen">
-          {/* Loading state */}
-          {isLoading && <p>Loading products...</p>}
+  return (
+    <section className="w-full max-w-[1620px] mx-auto px-4 sm:px-6 py-8 relative">
+      {searchKeyword && (
+        <div className="mb-6 bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-6">
+          <div className="flex items-center space-x-2">
+            <Search size={20} className="text-gray-600" />
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+              Search results for:{" "}
+              <span className="text-blue-600">
+                "{searchKeyword}"
+              </span>
+            </h1>
+          </div>
+        </div>
+      )}
 
-          {/* Error state */}
-          {isError && (
-            <p className="text-red-500">{isError}</p>
-          )}
+      <div className="lg:hidden mb-6">
+        <button
+          onClick={() => setShowFilters(true)}
+          className="flex items-center space-x-2 px-4 py-2 bg-gray-900 text-white rounded-xl font-medium hover:bg-black transition-all duration-200"
+        >
+          <Menu size={20} />
+          <span>Filters</span>
+        </button>
+      </div>
 
-          {/* Search keyword display */}
-          {searchKeyword && (
-            <p className="mb-4">
-              Search results for: searchKeyword
-            </p>
-          )}
+      {showFilters && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
+          <div className="absolute right-0 top-0 h-full w-80 max-w-[90vw] overflow-y-auto">
+            <FilterSidebar className="h-full rounded-none" />
+          </div>
+        </div>
+      )}
 
-          {/* Products grid */}
-          <div>
-            {data && data.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {data.map((product, i) => (
-                  <Link
-                    key={`product-${i}`}
-                    to={`/shop/products/${product._id.trim()}`}
-                  >
-                    <ProductCard
-                      image={product.images[0] || noImage}
-                      price={product.price}
-                      title={product.name}
-                      id={product._id}
-                    />
-                  </Link>
-                ))}
+      <div className="flex gap-8 min-h-screen">
+        <FilterSidebar className="hidden lg:block w-80 flex-shrink-0 h-fit sticky top-8" />
+
+        <div className="flex-1 space-y-8">
+          {isLoading && (
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                <span className="ml-3 text-gray-600">
+                  Loading products...
+                </span>
               </div>
-            ) : (
-              !isLoading && (
-                <p>
-                  No products found. Try changing your
-                  search criteria.
-                </p>
-              )
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* Pagination */}
+          {isError && (
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
+              <div className="flex items-center">
+                <div className="text-red-400">
+                  <X size={20} />
+                </div>
+                <p className="ml-3 text-red-700">
+                  {isError}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {!isLoading && !isError && (
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-6">
+              {data && data.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+                  {data.map((product, i) => (
+                    <Link
+                      key={`product-${i}`}
+                      to={`/shop/products/${product._id.trim()}`}
+                      className="group"
+                    >
+                      <ProductCard
+                        image={product.images[0] || noImage}
+                        price={product.price}
+                        title={product.name}
+                        id={product._id}
+                      />
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="text-gray-400 mb-4">
+                    <Search size={48} className="mx-auto" />
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    No products found
+                  </h3>
+                  <p className="text-gray-600">
+                    Try changing your search criteria or
+                    adjusting your filters.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
           {data && data.length > 0 && (
-            <div className="flex gap-6 items-center justify-center mt-6">
-              <button
-                disabled={!pagination.hasPrev}
-                className="disabled:bg-[#efefef] disabled:text-[#9a9699] rounded-2xl py-3 px-6 md:px-10
-                      bg-[#676265] cursor-pointer text-white hover:bg-[#545053] transition-all ease-in"
-                onClick={() => {
-                  dispatch(setSearchPage(-1));
-                }}
-              >
-                Prev
-              </button>
-              <p>
-                Page {pagination.page} of{" "}
-                {pagination.totalPages}
-              </p>
-              <button
-                disabled={!pagination.hasNext}
-                className="disabled:bg-[#efefef] disabled:text-[#9a9699] rounded-2xl py-3 px-6 md:px-10 bg-[#676265] hover:bg-[#545053] transition-all ease-in text-white cursor-pointer"
-                onClick={() => {
-                  dispatch(setSearchPage(1));
-                }}
-              >
-                Next
-              </button>
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <button
+                  disabled={!pagination.hasPrev}
+                  className="flex items-center space-x-2 px-4 sm:px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-black transition-all duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300 w-full sm:w-auto justify-center"
+                  onClick={() =>
+                    dispatch(setSearchPage(-1))
+                  }
+                >
+                  <ChevronLeft size={16} />
+                  <span>Previous</span>
+                </button>
+
+                <div className="flex items-center space-x-4">
+                  <span className="text-gray-600 text-sm sm:text-base">
+                    Page {pagination.page} of{" "}
+                    {pagination.totalPages}
+                  </span>
+                </div>
+
+                <button
+                  disabled={!pagination.hasNext}
+                  className="flex items-center space-x-2 px-4 sm:px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-black transition-all duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300 w-full sm:w-auto justify-center"
+                  onClick={() => dispatch(setSearchPage(1))}
+                >
+                  <span>Next</span>
+                  <ChevronRight size={16} />
+                </button>
+              </div>
             </div>
           )}
         </div>
