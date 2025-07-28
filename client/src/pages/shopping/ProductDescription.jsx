@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../store/product-slice/getProduct";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import renderStars from "../../utils/renderStars";
 import {
   ShoppingCart,
@@ -51,26 +51,23 @@ const ProductDescription = () => {
     }
   }, [isError, data?.images]);
 
-  // useEffect(() => {
-  // if (cartError) {
-  //   toast.error(cartError);
-  //   dispatch(resetAddToCart());
-  // }
-  // if (status === "success") {
-  //   toast.success(cartMessage);
-  //   dispatch(resetAddToCart());
-  // }
-  // }, [cartError, status, cartMessage, dispatch]);
+  if (cartError) {
+    toast.error(cartError);
+    dispatch(resetAddToCart());
+  }
+  if (status === "success") {
+    toast.success(cartMessage);
+    dispatch(resetAddToCart());
+  }
 
   const handleAddToCart = () => {
-    // if (!user) {
-    //   toast.error("Please login to add items to cart");
-    //   return;
-    // }
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      return;
+    }
     dispatch(
       addToCart({ userId: user?.id, productId: data._id })
     ).then(() => {
-      toast.success("product added");
       return dispatch(resetAddToCart());
     });
   };
@@ -94,18 +91,6 @@ const ProductDescription = () => {
 
   return (
     <section className="w-full max-w-[1620px] mx-auto px-6 py-8 lg:py-12">
-      {/* <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-            borderRadius: "12px",
-          },
-        }}
-      /> */}
-
       <div className="mb-8">
         <button
           onClick={() => window.history.back()}
