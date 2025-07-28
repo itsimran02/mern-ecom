@@ -8,3 +8,4 @@ export const API_KEY = process.env.API_KEY;
 export const CLOUD_NAME = process.env.CLOUD_NAME;
 export const API_SECRET = process.env.API_SECRET;
 export const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+export const MONGO_URI = process.env.MONGO_URI;
