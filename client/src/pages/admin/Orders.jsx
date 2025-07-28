@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, Search } from "lucide-react";
-import getStatusColor from "../../utils/StatusColor";
+import getStatusColor from "../../utils/statusColor.js";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders } from "../../store/admin/order-slice/getOrder";
+import { getOrders } from "../../store/admin/order-slice/getOrder.js";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { BASE_API_URL } from "../../config/apiConfig";
+import { BASE_API_URL } from "../../config/apiConfig.js";
 
 const AdminOrders = () => {
   const dispatch = useDispatch();

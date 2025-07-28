@@ -12,7 +12,7 @@ import { getOrders } from "../../store/admin/order-slice/getOrder.js";
 import { useEffect } from "react";
 import { getProducts } from "../../store/product-slice/getProducts.js";
 import { getCustomers } from "../../store/admin/customer-slice/getCustomer.js";
-import getStatusColor from "../../utils/StatusColor.js";
+import getStatusColor from "../../utils/statusColor.js";
 import getIconColor from "../../utils/iconColor.js";
 
 const Dashboard = () => {

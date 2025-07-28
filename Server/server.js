@@ -11,6 +11,7 @@ import userRoutes from "./src/routes/userRoutes.js";
 import webhookroutes from "./src/routes/webhookRoutes.js";
 
 import adminRoutes from "./src/routes/adminRoutes.js";
+import { FRONTEND_URL } from "./src/config/envConfig.js";
 
 dotenv.config();
 const app = express();
@@ -23,8 +24,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin:
-      process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: FRONTEND_URL || "http://localhost:5173",
     methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
     credentials: true,
     allowedHeaders: [
