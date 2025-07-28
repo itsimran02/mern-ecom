@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import createToken from "../utils/createToken.js";
+import { APPLICATION_STATE } from "../config/envConfig.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -34,7 +35,7 @@ export const registerUser = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: APPLICATION_STATE === "production",
         sameSite: "lax",
         maxAge: 24 * 60 * 60 * 1000,
         path: "/",

@@ -5,7 +5,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCartItems } from "../../store/product-slice/getCartItems";
@@ -110,18 +110,6 @@ const ShoppingCart = () => {
 
   return (
     <section className="w-full max-w-[1620px] mx-auto px-6 py-8">
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-            borderRadius: "12px",
-          },
-        }}
-      />
-
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">

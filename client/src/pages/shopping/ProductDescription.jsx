@@ -51,25 +51,26 @@ const ProductDescription = () => {
     }
   }, [isError, data?.images]);
 
-  useEffect(() => {
-    if (cartError) {
-      toast.error(cartError);
-      dispatch(resetAddToCart());
-    }
-    if (status === "success") {
-      toast.success(cartMessage);
-      dispatch(resetAddToCart());
-    }
-  }, [cartError, status, cartMessage, dispatch]);
+  // useEffect(() => {
+  // if (cartError) {
+  //   toast.error(cartError);
+  //   dispatch(resetAddToCart());
+  // }
+  // if (status === "success") {
+  //   toast.success(cartMessage);
+  //   dispatch(resetAddToCart());
+  // }
+  // }, [cartError, status, cartMessage, dispatch]);
 
   const handleAddToCart = () => {
-    if (!user) {
-      toast.error("Please login to add items to cart");
-      return;
-    }
+    // if (!user) {
+    //   toast.error("Please login to add items to cart");
+    //   return;
+    // }
     dispatch(
       addToCart({ userId: user?.id, productId: data._id })
     ).then(() => {
+      toast.success("product added");
       return dispatch(resetAddToCart());
     });
   };
@@ -93,7 +94,7 @@ const ProductDescription = () => {
 
   return (
     <section className="w-full max-w-[1620px] mx-auto px-6 py-8 lg:py-12">
-      <Toaster
+      {/* <Toaster
         position="top-right"
         toastOptions={{
           duration: 3000,
@@ -103,7 +104,7 @@ const ProductDescription = () => {
             borderRadius: "12px",
           },
         }}
-      />
+      /> */}
 
       <div className="mb-8">
         <button
