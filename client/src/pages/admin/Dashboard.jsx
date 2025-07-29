@@ -69,7 +69,8 @@ const Dashboard = () => {
               Welcome back, Admin!
             </h1>
             <p className="text-gray-600 mt-1">
-              Here's what's happening with your store today.
+              Here&apos;s what&apos;s happening with your
+              store today.
             </p>
           </div>
           <Link
@@ -130,7 +131,8 @@ const Dashboard = () => {
           </div>
           <div className="p-6">
             <div className="space-y-4">
-              {orders.slice(0, 5).map((order, index) => (
+              {!orders && <h2>No Orders yet</h2>}
+              {orders?.slice(0, 5).map((order, index) => (
                 <div
                   key={index}
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
@@ -153,7 +155,7 @@ const Dashboard = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-medium text-gray-900">
-                      ${order.amount}
+                      ${order.amount / 100}
                     </p>
                     <span
                       className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(

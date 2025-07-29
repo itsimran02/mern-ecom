@@ -142,7 +142,7 @@ const AdminOrders = () => {
                       .join(", ")}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    ${order.amount}
+                    ${order.amount / 100}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span

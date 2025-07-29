@@ -37,7 +37,9 @@ const ProductDescription = () => {
     "https://cdn.vectorstock.com/i/500p/46/50/missing-picture-page-for-website-design-or-mobile-vector-27814650.jpg";
 
   useEffect(() => {
-    dispatch(getProduct(id));
+    dispatch(getProduct(id)).then(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
 
     return () => {
       dispatch(resetAddToCart());

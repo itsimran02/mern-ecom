@@ -4,6 +4,7 @@ import Product from "../models/Product.js";
 import User from "../models/User.js";
 import AppError from "../utils/appError.js";
 import jwt from "jsonwebtoken";
+
 const getOrders = async (req, res, next) => {
   const token = req.cookies.token;
 

@@ -1,3 +1,7 @@
+import {
+  APPLICATION_STATE,
+  FRONTEND_URL,
+} from "../config/envConfig.js";
 import AppError from "../utils/appError.js";
 
 const userLogOut = async (req, res, next) => {
@@ -5,9 +9,8 @@ const userLogOut = async (req, res, next) => {
     const token = req.cookies.token;
     res.clearCookie("token", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-
+      secure: APPLICATION_STATE === "production",
+      sameSite: "none",
       path: "/",
     });
 

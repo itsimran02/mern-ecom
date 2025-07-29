@@ -21,7 +21,10 @@ const orderSchema = new mongoose.Schema({
     type: Number,
   },
   PaymentIntent: String,
-  stripeSessionId: String,
+  stripeSessionId: {
+    type: String,
+    unique: true,
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

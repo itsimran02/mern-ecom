@@ -35,6 +35,10 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  orders: {
+    type: [String],
+    default: [],
+  },
 });
 
 export default mongoose.model("User", UserSchema);

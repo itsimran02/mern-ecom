@@ -49,8 +49,15 @@ async function createOrderFromSession(session) {
   try {
     const { userId, userEmail, products, userName } =
       session.metadata;
-    console.log(userName);
     const parsedProducts = JSON.parse(products);
+    const existingOrder = await Order.findOne({
+      stripeSessionId: session.id,
+    });
+
+    if (existingOrder) {
+      console.log("🔄 Order already exists:", session.id);
+      return existingOrder;
+    }
 
     const order = new Order({
       user: userId,
@@ -62,9 +69,11 @@ async function createOrderFromSession(session) {
       stripeSessionId: session.id,
       PaymentIntent: session.payment_intent,
     });
+    console.log(order);
     const savedOrder = await order.save();
+
     await User.findByIdAndUpdate(userId, {
-      $push: { order: savedOrder._id },
+      $push: { orders: savedOrder._id },
       $set: { cartItems: [] },
     });
     return savedOrder;
