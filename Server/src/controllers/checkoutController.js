@@ -14,7 +14,22 @@ const checkout = async (req, res, next) => {
       req.body;
 
     const filteredProducts = JSON.stringify(
-      products.map(({ description, ...rest }) => rest)
+      products.map(
+        ({
+          description,
+          subCategory,
+          category,
+
+          brand,
+          colors,
+          images,
+          numReviews,
+          createdAt,
+          rating,
+          InStock,
+          ...rest
+        }) => rest
+      )
     );
     console.log(filteredProducts);
     if (!products || !Array.isArray(products))

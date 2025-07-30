@@ -49,6 +49,7 @@ async function createOrderFromSession(session) {
   try {
     const { userId, userEmail, products, userName } =
       session.metadata;
+    console.log(products);
     const parsedProducts = JSON.parse(products);
     const existingOrder = await Order.findOne({
       stripeSessionId: session.id,
@@ -56,7 +57,10 @@ async function createOrderFromSession(session) {
 
     if (existingOrder) {
       console.log("🔄 Order already exists:", session.id);
-      return existingOrder;
+      return res.status(401).json({
+        message: "order already exists",
+        order: existingOrder,
+      });
     }
 
     const order = new Order({

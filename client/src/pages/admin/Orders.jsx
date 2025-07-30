@@ -12,11 +12,10 @@ const AdminOrders = () => {
   const { orders } = useSelector(
     (state) => state.getOrders
   );
-  console.log(orders);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
-  const filteredOrders = orders.filter(
+  const filteredOrders = orders?.filter(
     (order) =>
       order.email
         .toLowerCase()
@@ -128,7 +127,7 @@ const AdminOrders = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredOrders.map((order) => (
+              {filteredOrders?.map((order) => (
                 <tr key={order._id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     #{order._id.slice(-6)}
