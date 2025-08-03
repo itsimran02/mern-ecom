@@ -35,14 +35,9 @@ function App() {
   return (
     <div className="flex flex-col bg-white overflow-hidden">
       <Routes>
-        {/* auth routes  */}
         <Route
           path="/"
-          element={
-            <ProtectedRoutes>
-              <h1>home</h1>
-            </ProtectedRoutes>
-          }
+          element={<Navigate to="/shop/home" replace />}
         />
         <Route
           path="/auth"
@@ -99,9 +94,9 @@ function App() {
         <Route
           path="/shop"
           element={
-            <ProtectedRoutes>
-              <ShoppingLayout />
-            </ProtectedRoutes>
+            // <ProtectedRoutes>
+            <ShoppingLayout />
+            // </ProtectedRoutes>
           }
           replace
         >

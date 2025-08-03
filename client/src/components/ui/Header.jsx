@@ -7,7 +7,7 @@ import {
   X,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSearchKeyword,
   searchProducts,
@@ -19,7 +19,7 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.auth.user);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     if (isSearchOpen) setIsSearchOpen(false);
@@ -119,6 +119,7 @@ const Header = () => {
               size={22}
             />
           </Link>
+          {!user && <Link to="/auth/login">login</Link>}
 
           {/* Mobile menu button */}
           <button
