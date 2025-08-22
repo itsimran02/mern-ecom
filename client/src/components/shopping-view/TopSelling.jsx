@@ -3,6 +3,7 @@ import ProductCard from "../ui/ProductCard";
 import { getProducts } from "../../store/product-slice/getProducts";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import ProductCardSkeleton from "../ui/ProductSkeleton";
 
 const TopSelling = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,17 @@ const TopSelling = () => {
           })}
         </div>
       ) : (
-        <p>Loading....</p>
+        <div className="mx-auto max-w-[1620px] w-full lg:py-[55px] py-[35px] px-3 md:px-6">
+          <div className="gap-4 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 md:gap-4  ">
+            {[...Array(6)].map((_, i) => {
+              return (
+                <div key={i} className="">
+                  <ProductCardSkeleton />
+                </div>
+              );
+            })}
+          </div>
+        </div>
       )}
     </>
   );
