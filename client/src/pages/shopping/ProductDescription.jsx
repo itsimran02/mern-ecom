@@ -253,7 +253,7 @@ const ProductDescription = () => {
                 />
               )}
               <span>
-                {status === "loading"
+                {status === "laoding"
                   ? "Adding to cart..."
                   : "Add To Cart"}
               </span>
