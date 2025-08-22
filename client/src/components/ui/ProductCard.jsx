@@ -12,7 +12,7 @@ const ProductCard = ({
   return (
     <div className="group min-w-[80%] relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-gray-200 transition-all duration-300 ease-out">
       {/* Product Image */}
-      <div className="relative h-85 overflow-hidden bg-gray-50">
+      <div className="relative md:h-[400px] overflow-hidden bg-gray-50">
         <img
           src={image}
           alt={title}

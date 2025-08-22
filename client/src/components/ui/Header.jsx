@@ -62,18 +62,24 @@ const Header = () => {
               Shop
             </Link>
 
-            <a
-              href="#recentProducts"
+            <Link
+              to={"products/search/?keyword=shirts"}
               className="text-gray-800 hover:text-black font-medium cursor-pointer"
             >
-              Recent Products
-            </a>
-            <a
-              href="#topSelling"
+              Shirts
+            </Link>
+            <Link
+              to={"products?category=Men&page=1"}
               className="text-gray-800 hover:text-black font-medium cursor-pointer"
             >
-              Top Selling
-            </a>
+              Men
+            </Link>
+            <Link
+              to={"products?category=Women&page=1"}
+              className="text-gray-800 hover:text-black font-medium cursor-pointer"
+            >
+              Women
+            </Link>
           </ul>
         </div>
 

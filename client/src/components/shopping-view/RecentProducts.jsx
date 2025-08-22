@@ -24,7 +24,7 @@ const RecentProducts = () => {
         </div>
       </div>
       {data ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-4">
+        <div className=" gap-4 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 md:gap-4 max-w-[1620px] mx-auto lg:py-[55px] py-[35px] px-3 md:px-6">
           {data.slice(0, 6).map((product, i) => {
             return (
               <Link
